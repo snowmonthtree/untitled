@@ -27,14 +27,15 @@ public class UserController {
         return "User inserted successfully";
     }
     @PostMapping("/changePassword")
-    public String changePassword(@RequestBody User user){
-        User user1=userRepository.findByEmail(user.getEmail());
+    public String changePassword(@RequestParam String Email,@RequestParam String newPassword){
+        User user1=userRepository.findByEmail(Email);
         if (user1==null){
             return "用户不存在";
         }
         else {
             try {
-                userRepository.save(user);
+                user1.setPassword(newPassword);
+                userRepository.save(user1);
             }catch (Exception e){
                 return "失败"+e.getMessage();
             }
