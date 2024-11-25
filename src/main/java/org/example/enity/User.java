@@ -1,10 +1,7 @@
 package org.example.enity;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -13,24 +10,25 @@ public class User {
     @Id
     @GeneratedValue(generator = "customStringGenerator")
     @GenericGenerator(name = "customStringGenerator", strategy = "org.example.CustomStringIdGenerator")
-    @Column(name = "User_ID", length = 11)
+    @Column(name = "User_ID", length = 11,unique = true)
     private String userId;
 
     @Column(name = "Name", length = 10)
     private String name;
 
     @Column(name = "Permission_ID", length = 1)
-    private String permissionId;
+    private String permissionId="0";
 
     @Column(name = "Password", length = 13)
     private String password;
 
-    @Column(name = "Email", length = 15)
+
+    @Column(name = "Email", length = 15,unique = true)
     private String email;
 
     @Nullable
     @Column(name = "Avatar_Web_URL", length = 255)
-    private String avatarWebUrl;
+    private String avatarWebUrl="123";
 
     @Column(name = "Likes_Num")
     private int likesNum;
