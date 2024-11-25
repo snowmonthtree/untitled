@@ -10,26 +10,40 @@ import org.example.repository.UserRepository;
 @RequestMapping("/api")
 public class UserController {
     @Autowired
-    private UserRepository userService;
+    private UserRepository userRepository;
     @GetMapping("/login")
-    public String getData(@RequestParam String param1, @RequestParam String param2) {
-        User user=userService.findByUserIdAndPassword(param1,param2);
-        if (user!= null) {
-            return "User found";
-        } else {
-            return "User not found";
-        }
+    public User getUser(@RequestParam String param1, @RequestParam String param2) {
+        User user= userRepository.findByUserEmailAndPassword(param1,param2);
+        return user;
     }
     @PostMapping("/insert")
     public String insertUser(@RequestBody User user) {
-        user.setPermissionId("0");
-        user.setAvatarWebUrl("123");
-        userService.save(user);
+
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+        return e.getMessage();
+        }
         return "User inserted successfully";
+    }
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody User user){
+        User user1=userRepository.findByUserEmail(user.getEmail());
+        if (user1==null){
+            return "用户不存在";
+        }
+        else {
+            try {
+                userRepository.save(user);
+            }catch (Exception e){
+                return "失败"+e.getMessage();
+            }
+        }
+        return "success";
     }
     @PostMapping("/login1")
     public ResponseEntity<User> login(@RequestParam String userId, @RequestParam String password) {
-        User user = userService.findByUserIdAndPassword(userId, password);
+        User user = userRepository.findByUserEmailAndPassword(userId, password);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
