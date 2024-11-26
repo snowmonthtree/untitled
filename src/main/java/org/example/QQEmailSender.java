@@ -34,7 +34,6 @@ public class QQEmailSender extends EmailSender {
 
     // 设置邮件服务器
     public void init(String to) {
-        to = to.substring(1,to.length() - 1);
         this.to = to;
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");  // 使用SSL端口465
