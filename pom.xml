@@ -42,5 +42,17 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.guicedee.services</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.2.2.1</version> <!-- 或者使用适合的最新版本 -->
+        </dependency>
+        <dependency>
+            <groupId>com.guicedee.services</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <version>1.2.2.1-jre17</version>
+        </dependency>
+
+
     </dependencies>
 </project>

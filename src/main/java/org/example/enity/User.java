@@ -1,5 +1,6 @@
 package org.example.enity;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,6 +14,7 @@ public class User {
     @Column(name = "User_ID", length = 11,unique = true)
     private String userId;
 
+    @Nonnull
     @Column(name = "Name", length = 10)
     private String name;
 

@@ -1,4 +1,7 @@
 package org.example.controller;
+import org.aspectj.apache.bcel.classfile.Code;
+import org.example.EmailSender;
+import org.example.QQEmailSender;
 import org.example.enity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,14 +14,17 @@ import org.example.repository.UserRepository;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+    private String temp;
     @GetMapping("/login")
     public User getUser(@RequestParam String param1, @RequestParam String param2) {
         User user= userRepository.findByEmailAndPassword(param1,param2);
         return user;
     }
     @PostMapping("/insert")
-    public String insertUser(@RequestBody User user) {
-
+    public String insertUser(@RequestBody User user,@RequestParam String Code) {
+        if (!Code.equals(temp)){
+            return "验证码错误";
+        }
         try {
             userRepository.save(user);
         } catch (Exception e) {
@@ -27,12 +33,13 @@ public class UserController {
         return "User inserted successfully";
     }
     @PostMapping("/changePassword")
-    public String changePassword(@RequestParam String Email,@RequestParam String newPassword){
+    public String changePassword(@RequestParam String Email,@RequestParam String newPassword,@RequestParam String Code){
         User user1=userRepository.findByEmail(Email);
         if (user1==null){
             return "用户不存在";
-        }
-        else {
+        } else if (!Code.equals(temp)) {
+            return "验证码错误";
+        } else {
             try {
                 user1.setPassword(newPassword);
                 userRepository.save(user1);
@@ -41,6 +48,13 @@ public class UserController {
             }
         }
         return "success";
+    }
+    @GetMapping("/getCode")
+    public String getCode(@RequestParam String Email){
+        EmailSender emailSender=new QQEmailSender();
+        emailSender.init(Email);
+        temp=emailSender.sendmail();
+        return "验证码已发送";
     }
 
 }
