@@ -1,7 +1,9 @@
 package org.example;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -53,7 +55,7 @@ public class QQEmailSender extends EmailSender {
         });
 
         try {
-            // 创建一个默认的 MimeMessage 对象
+            // 创建一个 MimeMessage 对象
             MimeMessage message = new MimeMessage(session);
 
             // 设置发件人
@@ -63,17 +65,16 @@ public class QQEmailSender extends EmailSender {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // 设置邮件主题
-            message.setSubject("Test Email from Java Program ");
+            message.setSubject("Test Email from Jakarta Mail");
 
             // 设置邮件内容
             message.setText(text);
 
-            // 发送消息
+            // 发送邮件
             Transport.send(message);
             System.out.println("Email sent successfully...");
         } catch (MessagingException mex) {
             mex.printStackTrace();
-            return null;
         }
         return text;
     }
