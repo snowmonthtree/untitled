@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/led-resources")
 public class LedResourceController {
-    private static final String IMAGE_DIRECTORY = "C:/Users/User/Pictures/";  // 图片存储目录
+    private static final String IMAGE_DIRECTORY = "C:\\Users\\Administrator\\Pictures";  // 图片存储目录
 
     @Autowired
     private LedResourceRepository ledResourceRepository;
