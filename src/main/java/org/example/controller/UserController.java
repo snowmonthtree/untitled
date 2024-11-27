@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.example.repository.UserRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -49,6 +49,7 @@ public class UserController {
         }
         return "success";
     }
+    //目前最多只能支持一个用户同时进行发送验证码并修改密码或注册
     @GetMapping("/getCode")
     public String getCode(@RequestParam String Email){
         EmailSender emailSender=new QQEmailSender();
