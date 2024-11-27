@@ -25,6 +25,7 @@ public class UserController {
         if (!Code.equals(temp)){
             return "验证码错误";
         }
+        user.setPermissionId("0");
         try {
             userRepository.save(user);
         } catch (Exception e) {
