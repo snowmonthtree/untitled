@@ -1,10 +1,13 @@
 package org.example.enity;
 
-import jakarta.persistence.*;
-
-
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Entity
 @Table(name = "Comment")
 public class Comment {

@@ -1,13 +1,16 @@
 package org.example.controller;
-import org.aspectj.apache.bcel.classfile.Code;
+import org.example.repository.UserRepository;
 import org.example.EmailSender;
 import org.example.QQEmailSender;
 import org.example.enity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.example.repository.UserRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/user")
@@ -34,11 +37,11 @@ public class UserController {
         return "User inserted successfully";
     }
     @PostMapping("/changePassword")
-    public String changePassword(@RequestParam String Email,@RequestParam String newPassword,@RequestParam String Code){
-        User user1=userRepository.findByEmail(Email);
+    public String changePassword(@RequestParam String email,@RequestParam String newPassword,@RequestParam String code){
+        User user1=userRepository.findByEmail(email);
         if (user1==null){
             return "用户不存在";
-        } else if (!Code.equals(temp)) {
+        } else if (!code.equals(temp)) {
             return "验证码错误";
         } else {
             try {
@@ -52,9 +55,9 @@ public class UserController {
     }
     //目前最多只能支持一个用户同时进行发送验证码并修改密码或注册
     @GetMapping("/getCode")
-    public String getCode(@RequestParam String Email){
+    public String getCode(@RequestParam String email){
         EmailSender emailSender=new QQEmailSender();
-        emailSender.init(Email);
+        emailSender.init(email);
         temp=emailSender.sendmail();
         return "验证码已发送";
     }

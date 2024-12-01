@@ -10,5 +10,5 @@ abstract public class EmailSender {
     Properties properties;
     public abstract void init(String to);
     public abstract String sendmail();
-    public abstract boolean check1(String email);
+    public abstract boolean checkEmail(String email);
 }

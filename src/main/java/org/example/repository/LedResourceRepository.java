@@ -20,9 +20,10 @@ public interface LedResourceRepository extends JpaRepository<LedResource, String
     @Query("SELECT l FROM LedResource l ORDER BY l.upTime DESC")
     List<LedResource> findTop8ByOrderByUpTimeDesc();
 
-    // 如果您想添加更多的复杂查询，可以使用 JPQL 或者原生 SQL，例如：
-    // @Query("SELECT l FROM LedResource l WHERE l.likes > :likes")
-    // List<LedResource> findByLikesGreaterThan(@Param("likes") int likes);
-
+    /*
+     如果想添加更多的复杂查询，可以使用 JPQL 或者原生 SQL，例如：
+     @Query("SELECT l FROM LedResource l WHERE l.likes > :likes")
+     List<LedResource> findByLikesGreaterThan(@Param("likes") int likes);
+    */
 }
 

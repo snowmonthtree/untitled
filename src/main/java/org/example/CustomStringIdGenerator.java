@@ -1,21 +1,12 @@
 package org.example;
-import org.example.enity.User;
-import org.example.repository.UserRepository;
-import org.hibernate.HibernateException;
-import org.hibernate.annotations.Comment;
+
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Random;
-import java.util.UUID;
-import org.hibernate.id.IdentifierGenerator;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.HibernateException;
-import java.io.Serializable;
-import java.util.Random;
+
 
 @Component
 public class CustomStringIdGenerator implements IdentifierGenerator {
