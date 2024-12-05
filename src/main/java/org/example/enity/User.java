@@ -13,7 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "customStringGenerator")
-    @GenericGenerator(name = "customStringGenerator", strategy = "org.example.CustomStringIdGenerator")
+    @GenericGenerator(name = "customStringGenerator", strategy = "org.example.generator.CustomStringUserIdGenerator")
     @Column(name = "User_ID", length = 11,unique = true)
     private String userId;
 

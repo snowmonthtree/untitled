@@ -1,14 +1,4 @@
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.example.CustomStringIdGenerator;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.HibernateException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import java.io.Serializable;
-    public class CustomIdGeneratorTest {
+public class CustomIdGeneratorTest {
 /*
         private CustomStringIdGenerator generator;
         private SharedSessionContractImplementor sessionMock;

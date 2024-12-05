@@ -33,7 +33,7 @@ public class LedResourceController {
     @GetMapping("/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws IOException {
         // 根据图片名称构造文件路径
-        Path imagePath = Paths.get(IMAGE_DIRECTORY + imageName);
+        Path imagePath = Paths.get(IMAGE_DIRECTORY , imageName);
         Resource resource = new UrlResource(imagePath.toUri());
 
         if (resource.exists() && resource.isReadable()) {

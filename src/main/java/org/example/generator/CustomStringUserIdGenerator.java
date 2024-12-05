@@ -1,4 +1,4 @@
-package org.example;
+package org.example.generator;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
@@ -9,7 +9,7 @@ import java.util.Random;
 
 
 @Component
-public class CustomStringIdGenerator implements IdentifierGenerator {
+public class CustomStringUserIdGenerator implements IdentifierGenerator {
 
     // 生成唯一的 userId
     @Override
