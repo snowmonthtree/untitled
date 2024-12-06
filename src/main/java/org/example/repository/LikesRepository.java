@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, String>{
     // 通过 Resource_ID 查找 Likes
-    List<Likes> findByResourceId(String resourceId);
+    List<Likes> findByLedResource_ResourceId(String resourceId);
 
     //查询 Usr是否点过赞
-    Optional<Likes> findByUserIdAndResourceId(String userId, String resourceId);
+    Optional<Likes> findByUser_UserIdAndLedResource_ResourceId(String userId, String resourceId);
 }

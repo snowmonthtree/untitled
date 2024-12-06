@@ -26,14 +26,14 @@ public class LikesController {
 
     @GetMapping("/userIfLike")
     public ResponseEntity<Boolean> userIfLike(@RequestParam String userId, @RequestParam String resourceId) {
-        Optional<Likes> optionalLikes = likesRepository.findByUserIdAndResourceId(userId, resourceId);
+        Optional<Likes> optionalLikes = likesRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
         return ResponseEntity.ok(optionalLikes.isPresent());
     }
 
     @PostMapping("/userLike")
     public ResponseEntity<String> likeResource(@RequestParam String userId, @RequestParam String resourceId) {
         try {
-            Optional<Likes> optionalLikes = likesRepository.findByUserIdAndResourceId(userId, resourceId);
+            Optional<Likes> optionalLikes = likesRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
             if (optionalLikes.isPresent()) {
                 return ResponseEntity.badRequest().body("Resource already liked");
             } else {
@@ -49,7 +49,7 @@ public class LikesController {
     @PostMapping("/userUnlike")
     public ResponseEntity<String> unlikeResource(@RequestParam String userId, @RequestParam String resourceId) {
         try {
-            Optional<Likes> optionalLikes = likesRepository.findByUserIdAndResourceId(userId, resourceId);
+            Optional<Likes> optionalLikes = likesRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
             if (optionalLikes.isPresent()) {
                 likesRepository.delete(optionalLikes.get());
                 return ResponseEntity.ok("Resource unliked successfully");
