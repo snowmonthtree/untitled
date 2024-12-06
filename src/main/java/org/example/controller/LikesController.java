@@ -30,34 +30,31 @@ public class LikesController {
         return ResponseEntity.ok(optionalLikes.isPresent());
     }
 
+
     @PostMapping("/userLike")
     public ResponseEntity<String> likeResource(@RequestParam String userId, @RequestParam String resourceId) {
         try {
             Optional<Likes> optionalLikes = likesRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
             if (optionalLikes.isPresent()) {
-                return ResponseEntity.badRequest().body("Resource already liked");
+                likesRepository.delete(optionalLikes.get());
+                return ResponseEntity.ok("取消点赞");
             } else {
                 Likes likes = new Likes();
                 likesRepository.save(likes);
-                return ResponseEntity.ok("Resource liked successfully");
+                return ResponseEntity.ok("点赞成功");
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error liking resource: " + e.getMessage());
         }
     }
-
-    @PostMapping("/userUnlike")
-    public ResponseEntity<String> unlikeResource(@RequestParam String userId, @RequestParam String resourceId) {
-        try {
-            Optional<Likes> optionalLikes = likesRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
-            if (optionalLikes.isPresent()) {
-                likesRepository.delete(optionalLikes.get());
-                return ResponseEntity.ok("Resource unliked successfully");
-            } else {
-                return ResponseEntity.badRequest().body("Resource not found or already unliked");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error unliking resource: " + e.getMessage());
-        }
-    }
+//    @GetMapping("/getLikeNum")
+//    public ResponseEntity<Integer> getLikeNum(@RequestParam String resourceId) {
+//        Optional<LedResource> optionalLedResource = ledResourceRepository.findById(resourceId);
+//        if (optionalLedResource.isPresent()) {
+//            LedResource ledResource = optionalLedResource.get();
+//            return ResponseEntity.ok(ledResource.getLikes());
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 }
