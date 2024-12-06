@@ -20,6 +20,9 @@ public interface LedResourceRepository extends JpaRepository<LedResource, String
     @Query("SELECT l FROM LedResource l ORDER BY l.upTime DESC")
     List<LedResource> findTop8ByOrderByUpTimeDesc();
 
+    // 获取播放量从高到低排序
+    @Query("SELECT l FROM LedResource l ORDER BY l.playbackVolume DESC")
+    List<LedResource> findByOrderByPlaybackVolumeDesc();
     /*
      如果想添加更多的复杂查询，可以使用 JPQL 或者原生 SQL，例如：
      @Query("SELECT l FROM LedResource l WHERE l.likes > :likes")

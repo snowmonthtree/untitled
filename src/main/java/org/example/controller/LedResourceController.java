@@ -2,6 +2,8 @@ package org.example.controller;
 
 import org.example.enity.LedResource;
 import org.example.repository.LedResourceRepository;
+import org.example.enity.PlayRecord;
+import org.example.repository.PlayRecordRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,6 +28,8 @@ public class LedResourceController {
 
     @Autowired
     private LedResourceRepository ledResourceRepository;
+    @Autowired
+    private PlayRecordRepository playRecordRepository;
     @GetMapping("/init")
     public List<LedResource> init(){
         return ledResourceRepository.findTop8ByOrderByUpTimeDesc();
@@ -47,5 +51,20 @@ public class LedResourceController {
     @PostMapping("/search")
     public List<LedResource> search(@RequestParam String userId,@RequestParam String name){
         return ledResourceRepository.findByUser_UserIdContainingOrNameContaining(userId,name);
+    }
+
+    @GetMapping("/playback-volume")
+    public ResponseEntity<Integer> getPlaybackVolume(@RequestParam String resourceId) {
+        long count = playRecordRepository.countByResourceId(resourceId);
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
+        if (ledResource != null) {
+            ledResource.setPlaybackVolume((int) count);
+            ledResourceRepository.save(ledResource); // 保存更新后的实体
+        }
+        return ResponseEntity.ok((int) count);
+    }
+    @GetMapping("/order-by-playback-volume")
+    public List<LedResource> orderByPlaybackVolume() {
+        return ledResourceRepository.findByOrderByPlaybackVolumeDesc();
     }
 }

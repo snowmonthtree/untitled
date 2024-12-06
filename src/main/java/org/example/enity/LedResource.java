@@ -38,6 +38,9 @@ public class LedResource {
     @Column(name = "Likes", nullable = false)
     private int likes;
 
+    @Column(name = "Playback_Volume", nullable = false)
+    private int playbackVolume;
+
     @Column(name = "Detail", length = 255, nullable = false)
     private String detail;
 
@@ -114,6 +117,10 @@ public class LedResource {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    public int getPlaybackVolume() {return playbackVolume;}
+
+    public void setPlaybackVolume(int playbackVolume) {this.playbackVolume = playbackVolume; }
 
     public String getDetail() {
         return detail;
