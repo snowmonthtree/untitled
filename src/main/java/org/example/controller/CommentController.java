@@ -49,7 +49,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("LedResource not found");
         }
 
-        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
+        Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
