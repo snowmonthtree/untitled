@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "led_tag", schema = "spot")
+@Table(name = "led_tag")
 public class LedTag {
     @EmbeddedId
     private LedTagId id;

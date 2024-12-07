@@ -1,14 +1,20 @@
 package org.example.enity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
+import java.sql.Timestamp;
+import java.util.Objects;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tag")
 public class Tag {
     @Id
+    @GeneratedValue(generator = "customStringGenerator")
+    @GenericGenerator(name = "customStringGenerator", strategy = "org.example.generator.CustomStringTagIdGenerator")
     @Column(name = "Tag_ID", nullable = false, length = 11)
     private String tagId;
 
