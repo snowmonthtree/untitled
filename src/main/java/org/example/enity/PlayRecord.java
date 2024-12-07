@@ -15,7 +15,7 @@ import java.time.Instant;
 
 
 @Entity
-@Table(name = "play_record", schema = "spot")
+@Table(name = "play_record")
 public class PlayRecord {
     @EmbeddedId
     private PlayRecordId id;

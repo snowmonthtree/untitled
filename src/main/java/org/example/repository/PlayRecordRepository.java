@@ -11,12 +11,11 @@ import java.util.Optional;
 import java.util.List;
 
 @Repository
-public interface PlayRecordRepository extends JpaRepository<PlayRecord, String>{
+public interface PlayRecordRepository extends JpaRepository<PlayRecord, PlayRecordId>{
     // 根据用户ID获取用户的播放记录
     List<PlayRecord> findByUser_UserId(String userId);
     // 统计某个resourceId的所有播放记录数量
     @Query("SELECT COUNT(pr) FROM PlayRecord pr WHERE pr.id.resourceId = :resourceId")
     Long countByResourceId(String resourceId);
-
 
 }
