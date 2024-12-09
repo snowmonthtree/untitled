@@ -27,7 +27,7 @@ public class PlayRecordController {
     private LedResourceRepository ledResourceRepository;
     @GetMapping("/show/{userId}")
     public ResponseEntity<List<PlayRecord>> showPlayRecordByUserId(@PathVariable String userId) {
-        List<PlayRecord> playRecord = playRecordRepository.findByUser_UserId(userId);
+        List<PlayRecord> playRecord = playRecordRepository.findByUser_UserIdOrderByPlayTimeDesc(userId);
         if (playRecord.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
