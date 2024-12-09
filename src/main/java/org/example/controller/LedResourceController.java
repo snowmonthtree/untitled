@@ -58,35 +58,18 @@ public class LedResourceController {
         return ledResourceRepository.findByUser_UserIdContainingOrNameContaining(userId,name);
     }
 
-    //获取播放量
-    @GetMapping("/playback-volume")
-    public ResponseEntity<Integer> getPlaybackVolume(@RequestParam String resourceId) {
-        long count = playRecordRepository.countByResourceId(resourceId);
-        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
-        if (ledResource != null) {
-            ledResource.setPlaybackVolume((int) count);
-            ledResourceRepository.save(ledResource); // 保存更新后的实体
-        }
-        return ResponseEntity.ok((int) count);
-    }
     @GetMapping("/order-by-playback-volume")
     public List<LedResource> orderByPlaybackVolume() {
         return ledResourceRepository.findByOrderByPlaybackVolumeDesc();
     }
 
-    //获取点赞量
-    @GetMapping("/likesnum")
-    public ResponseEntity<Integer> getLikesNum(@RequestParam String resourceId) {
-        long count = likesRepository.countByResourceId(resourceId);
-        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
-        if (ledResource != null) {
-            ledResource.setLikes((int) count);
-            ledResourceRepository.save(ledResource); // 保存更新后的实体
-        }
-        return ResponseEntity.ok((int) count);
-    }
     @GetMapping("/order-by-likes")
     public List<LedResource> orderByLikes() {
         return ledResourceRepository.findByOrderByLikesDesc();
+    }
+
+    @GetMapping("/getresource/{resourceId}")
+    public LedResource getResource(@PathVariable String resourceId){
+        return ledResourceRepository.findByResourceId(resourceId);
     }
 }

@@ -58,6 +58,17 @@ public class PlayRecordController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/playback-volume")
+    public ResponseEntity<Integer> getPlaybackVolume(@RequestParam String resourceId) {
+        long count = playRecordRepository.countByResourceId(resourceId);
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
+        if (ledResource != null) {
+            ledResource.setPlaybackVolume((int) count);
+            ledResourceRepository.save(ledResource); // 保存更新后的实体
+        }
+        return ResponseEntity.ok((int) count);
+    }
 }
 
 

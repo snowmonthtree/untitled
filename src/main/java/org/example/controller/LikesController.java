@@ -47,6 +47,17 @@ public class LikesController {
             return ResponseEntity.badRequest().body("Error liking resource: " + e.getMessage());
         }
     }
+    //获取点赞量
+    @GetMapping("/likesnum")
+    public ResponseEntity<Integer> getLikesNum(@RequestParam String resourceId) {
+        long count = likesRepository.countByResourceId(resourceId);
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
+        if (ledResource != null) {
+            ledResource.setLikes((int) count);
+            ledResourceRepository.save(ledResource); // 保存更新后的实体
+        }
+        return ResponseEntity.ok((int) count);
+    }
 //    @GetMapping("/getLikeNum")
 //    public ResponseEntity<Integer> getLikeNum(@RequestParam String resourceId) {
 //        Optional<LedResource> optionalLedResource = ledResourceRepository.findById(resourceId);
