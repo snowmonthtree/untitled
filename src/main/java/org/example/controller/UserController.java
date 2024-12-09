@@ -113,7 +113,8 @@ public class UserController {
     public ResponseEntity<Resource> getAvatar(@PathVariable String userId) throws IOException {
         // 根据用户ID构造头像文件路径
         User user = userRepository.findByUserId(userId);
-        Path avatarPath =Paths.get(user.getAvatarWebUrl());
+        String url=user.getAvatarWebUrl();
+        Path avatarPath =Paths.get(url);
         Resource resource = new UrlResource(avatarPath.toUri());
 
         if (resource.exists() && resource.isReadable()) {
@@ -125,26 +126,34 @@ public class UserController {
         }
     }
     @PostMapping("/uploadFile")
-    public String imageUpload(@RequestParam("userId") String userId,@RequestParam("file") MultipartFile fileUpload) {
-        // 获取文件名
-        //String fileName = fileUpload.getOriginalFilename();
-        String tmpFilePath = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar";
+    public String imageUpload(@RequestParam("userId") String userId, @RequestParam("file") MultipartFile fileUpload) {
+        // 使用userId作为文件名，不保留原始文件扩展名
+        String fileName = userId;
+        String resourcesPath = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar" ;
 
-        // 没有路径就创建路径
-        File tmp = new File(tmpFilePath);
+        // 创建路径
+        File tmp = new File(resourcesPath);
         if (!tmp.exists()) {
             tmp.mkdirs();
         }
-        String resourcesPath = tmpFilePath + "//" + userId;
-        User user=userRepository.findByUserId(userId);
+
+        // 构建完整的文件路径
+        String filePath = resourcesPath + "\\" + fileName;
+
+        // 更新用户头像URL
+        User user = userRepository.findByUserId(userId);
         user.setAvatarWebUrl(resourcesPath);
-        File upFile = new File(resourcesPath);
+
+        // 保存文件
+        File upFile = new File(filePath);
         try {
             fileUpload.transferTo(upFile);
+            userRepository.save(user); // 假设userRepository支持save方法
             return "File uploaded successfully";
         } catch (IOException e) {
-            e.printStackTrace();
             return "Failed to upload file: " + e.getMessage();
         }
     }
+
+
 }
