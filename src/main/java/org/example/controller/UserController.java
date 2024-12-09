@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -108,37 +109,11 @@ public class UserController {
 //            return "上传失败: " + e.getMessage();
 //        }
 //    }
-    @PostMapping("/uploadAvatarImage")
-    public String uploadAvatarImage(@RequestParam("userId") String userId, @RequestParam("image") byte[] imageData) {
-        try {
-            // 将字节数组转换为 BufferedImage
-            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
-            // 定义文件路径和名称
-            File file = new File(AVATARIMAGE_DIRECTORY + File.separator + userId + ".png");
-            // 创建文件输出流
-            FileOutputStream fos = new FileOutputStream(file);
-            // 将 BufferedImage 写入文件
-            ImageIO.write(bufferedImage, "png", fos);
-            // 关闭文件输出流
-            fos.close();
-            User user = userRepository.findByUserId(userId);
-            if (user != null) {
-                // 设置图像路径
-                user.setAvatarWebUrl(file.getAbsolutePath());
-                // 保存用户对象
-                userRepository.save(user);
-            }
-
-            return "Image saved successfully";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Failed to save image: " + e.getMessage();
-        }
-    }
     @GetMapping("/avatar/{userId}")
     public ResponseEntity<Resource> getAvatar(@PathVariable String userId) throws IOException {
         // 根据用户ID构造头像文件路径
-        Path avatarPath = Paths.get(AVATARIMAGE_DIRECTORY, userId + ".png");
+        User user = userRepository.findByUserId(userId);
+        Path avatarPath =Paths.get(user.getAvatarWebUrl());
         Resource resource = new UrlResource(avatarPath.toUri());
 
         if (resource.exists() && resource.isReadable()) {
@@ -149,5 +124,27 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/uploadFile")
+    public String imageUpload(@RequestParam("userId") String userId,@RequestParam("file") MultipartFile fileUpload) {
+        // 获取文件名
+        //String fileName = fileUpload.getOriginalFilename();
+        String tmpFilePath = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar";
 
+        // 没有路径就创建路径
+        File tmp = new File(tmpFilePath);
+        if (!tmp.exists()) {
+            tmp.mkdirs();
+        }
+        String resourcesPath = tmpFilePath + "//" + userId;
+        User user=userRepository.findByUserId(userId);
+        user.setAvatarWebUrl(resourcesPath);
+        File upFile = new File(resourcesPath);
+        try {
+            fileUpload.transferTo(upFile);
+            return "File uploaded successfully";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Failed to upload file: " + e.getMessage();
+        }
+    }
 }
