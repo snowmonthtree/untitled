@@ -125,24 +125,22 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/uploadFile")
-    public String imageUpload(@RequestParam("userId") String userId, @RequestParam("file") MultipartFile fileUpload) {
+    @PatchMapping("/uploadFile")
+    public String imageUpload(@RequestParam("user") User user, @RequestParam("file") MultipartFile fileUpload) {
         // 使用userId作为文件名，不保留原始文件扩展名
-        String fileName = userId;
-        String resourcesPath = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar" ;
+        String fileName = fileUpload.getOriginalFilename();
 
         // 创建路径
-        File tmp = new File(resourcesPath);
+        File tmp = new File(AVATARIMAGE_DIRECTORY);
         if (!tmp.exists()) {
             tmp.mkdirs();
         }
 
         // 构建完整的文件路径
-        String filePath = resourcesPath + "\\" + fileName;
+        String filePath = AVATARIMAGE_DIRECTORY + "//" + fileName;
 
         // 更新用户头像URL
-        User user = userRepository.findByUserId(userId);
-        user.setAvatarWebUrl(resourcesPath);
+        user.setAvatarWebUrl(filePath);
 
         // 保存文件
         File upFile = new File(filePath);
