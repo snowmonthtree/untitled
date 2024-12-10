@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.util.UUID;
 
 
 @RestController
@@ -126,9 +126,14 @@ public class UserController {
         }
     }
     @PatchMapping("/uploadFile")
-    public String imageUpload(@RequestParam("user") User user, @RequestParam("file") MultipartFile fileUpload) {
-        // 使用userId作为文件名，不保留原始文件扩展名
-        String fileName = fileUpload.getOriginalFilename();
+    public String imageUpload(@RequestPart("user") User user, @RequestParam("file") MultipartFile fileUpload){if (fileUpload.isEmpty()) {
+            return "Failed to upload file: File is empty";
+        }
+
+        // 使用UUID生成唯一的文件名，并保留文件扩展名
+        String originalFileName = fileUpload.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String fileName = UUID.randomUUID().toString() + fileExtension;
 
         // 创建路径
         File tmp = new File(AVATARIMAGE_DIRECTORY);
@@ -137,21 +142,29 @@ public class UserController {
         }
 
         // 构建完整的文件路径
-        String filePath = AVATARIMAGE_DIRECTORY + "//" + fileName;
+        String newFilePath = AVATARIMAGE_DIRECTORY + File.separator +fileName;
+
+        // 删除旧的头像文件（如果存在）
+        String oldFilePath = user.getAvatarWebUrl();
+        if (oldFilePath != null) {
+            File oldFile = new File(oldFilePath);
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+        }
 
         // 更新用户头像URL
-        user.setAvatarWebUrl(filePath);
+        user.setAvatarWebUrl(newFilePath);
+        userRepository.save(user);
 
         // 保存文件
-        File upFile = new File(filePath);
+        File upFile = new File(newFilePath);
         try {
             fileUpload.transferTo(upFile);
-            userRepository.save(user); // 假设userRepository支持save方法
             return "File uploaded successfully";
         } catch (IOException e) {
             return "Failed to upload file: " + e.getMessage();
         }
     }
-
 
 }
