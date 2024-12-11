@@ -16,9 +16,9 @@ public interface LedResourceRepository extends JpaRepository<LedResource, String
     // 可以添加其他自定义查询方法，例如根据 User_ID 查找所有的资源
     List<LedResource> findByUser_UserIdContainingOrNameContaining(String userId, String name);
 
-    // 获取前 8 个记录
+    // 获取资源
     @Query("SELECT l FROM LedResource l ORDER BY l.upTime DESC")
-    List<LedResource> findTop8ByOrderByUpTimeDesc();
+    List<LedResource> findByOrderByUpTimeDesc();
 
     // 获取播放量从高到低排序
     @Query("SELECT l FROM LedResource l ORDER BY l.playbackVolume DESC")
