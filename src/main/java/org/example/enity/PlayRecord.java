@@ -57,12 +57,11 @@ public class PlayRecord {
         this.user = user;
     }
 
-    public LedResource getResource() {
+    public LedResource getLedResource() {
         return ledResource;
     }
 
-    public void setResource(LedResource resource) {
+    public void setLedResource(LedResource ledResource) {
         this.ledResource = ledResource;
     }
-
 }

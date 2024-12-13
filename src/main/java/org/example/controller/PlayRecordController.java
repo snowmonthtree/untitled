@@ -36,39 +36,25 @@ public class PlayRecordController {
 
     @PostMapping("/add/{userId}/{resourceId}")
     public ResponseEntity<Void> addPlayRecord(@PathVariable String userId, @PathVariable String resourceId) {
-        Optional<LedResource> optionalLedResource = ledResourceRepository.findById(resourceId);
-        if (!optionalLedResource.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
+       LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
-        LedResource ledResource = optionalLedResource.get();
         User user = optionalUser.get();
-
+        PlayRecordId id = new PlayRecordId();
         PlayRecord playRecord= new PlayRecord();
-        playRecord.setResource(ledResource);
+        id.setResourceId(resourceId);
+        id.setUserId(userId);
+        id.setPlayTime(new Timestamp(System.currentTimeMillis()));
+        playRecord.setId(id);
+        playRecord.setLedResource(ledResource);
         playRecord.setUser(user);
-        playRecord.getId().setPlayTime(new Timestamp(System.currentTimeMillis()));
-
         playRecordRepository.save(playRecord);
 
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/playback-volume")
-    public ResponseEntity<Integer> getPlaybackVolume(@RequestParam String resourceId) {
-        long count = playRecordRepository.countByResourceId(resourceId);
-        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
-        if (ledResource != null) {
-            ledResource.setPlaybackVolume((int) count);
-            ledResourceRepository.save(ledResource); // 保存更新后的实体
-        }
-        return ResponseEntity.ok((int) count);
-    }
 }
 
 
