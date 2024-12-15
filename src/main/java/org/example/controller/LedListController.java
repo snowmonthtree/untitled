@@ -56,7 +56,15 @@ public class LedListController {
         }
         playListRepository.delete(playList);
         return ResponseEntity.ok("Playlist deleted successfully");
-
+    }
+    @GetMapping("/get--playlists")
+    public ResponseEntity<List<PlayList>> getPlaylists(@RequestParam String userId) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        List<PlayList> playLists = playListRepository.findByUser_UserId(userId);
+        return ResponseEntity.ok(playLists);
     }
 
     @PostMapping("/add-resource")
@@ -105,6 +113,22 @@ public class LedListController {
         LedList lastLedList = lastLedListList.get(0);
         ledListRepository.delete(lastLedList);
         return ResponseEntity.ok("Last resource removed from playlist successfully");
+    }
+    @GetMapping("/get-playlist-resources")
+    public ResponseEntity<List<LedResource>> getPlaylistResources(@RequestParam String userId, @RequestParam String playlistId) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        PlayList playList = playListRepository.findByPlaylistId(playlistId);
+        if (playList == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        List<LedList> ledLists = ledListRepository.findByPlaylistIdOrderByListNoAsc(playlistId);
+        List<LedResource> ledResources = ledLists.stream()
+                .map(LedList::getResource)
+                .toList();
+        return ResponseEntity.ok(ledResources);
     }
 
 }

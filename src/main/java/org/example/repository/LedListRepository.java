@@ -18,4 +18,7 @@ public interface LedListRepository extends JpaRepository<LedList, LedListId>{
 
     @Query("SELECT l FROM LedList l WHERE l.id.playlistId = :playlistId ORDER BY l.id.listNo DESC")
     List<LedList> findFirstByPlaylistIdOrderByListNoDesc(@Param("playlistId") String playlistId);
+
+    @Query("SELECT l FROM LedList l WHERE l.id.playlistId = :playlistId ORDER BY l.id.listNo ASC")
+    List<LedList> findByPlaylistIdOrderByListNoAsc(@Param("playlistId") String playlistId);
 }
