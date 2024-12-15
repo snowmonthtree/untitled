@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.enity.LedResource;
+import org.example.enity.User;
 import org.example.repository.LedResourceRepository;
 import org.example.enity.Likes;
 import org.example.repository.LikesRepository;
@@ -11,17 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/led-resources")
@@ -37,7 +36,7 @@ public class LedResourceController {
 
     @GetMapping("/init")
     public List<LedResource> init(){
-        return ledResourceRepository.findTop8ByOrderByUpTimeDesc();
+        return ledResourceRepository.findByOrderByUpTimeDesc();
     }
     @GetMapping("/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws IOException {
@@ -72,4 +71,53 @@ public class LedResourceController {
     public LedResource getResource(@PathVariable String resourceId){
         return ledResourceRepository.findByResourceId(resourceId);
     }
+    @PostMapping("uploadresource")
+    public String uploadledresource(@RequestPart("ledresource") LedResource ledResource, @RequestParam("file") MultipartFile fileUpload) {
+        if (fileUpload.isEmpty()) {
+            return "Failed to upload file: File is empty";
+        }
+
+        File tmp = new File(IMAGE_DIRECTORY);
+        if (!tmp.exists()) {
+            tmp.mkdirs();
+        }
+
+        String originalFileName = fileUpload.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        // 构建完整的文件路径
+        String fileName = ledResource.getResourceId() + fileExtension;
+        String newFilePath = IMAGE_DIRECTORY + File.separator + fileName;
+
+        LedResource oldResource = ledResourceRepository.findByResourceId(ledResource.getResourceId());
+
+        File upFile = new File(newFilePath);
+        try {
+            fileUpload.transferTo(upFile);
+        } catch (IOException e) {
+            return "Failed to upload file: " + e.getMessage();
+        }
+
+        ledResource.setResourceWebUrl(newFilePath);
+        ledResource.setViewWebUrl(newFilePath);
+
+        if (oldResource != null) {
+            // 更新已存在的资源
+            String oldFilePath = oldResource.getResourceWebUrl();
+            if (oldFilePath != null) {
+                File oldFile = new File(oldFilePath);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
+            }
+        }
+
+        ledResourceRepository.save(ledResource);
+        return "File uploaded successfully";
+    }
+    @PostMapping("update")
+    public String updateResource(@RequestPart("ledresource") LedResource ledResource){
+        ledResourceRepository.save(ledResource);
+        return "success";
+    }
+
 }
