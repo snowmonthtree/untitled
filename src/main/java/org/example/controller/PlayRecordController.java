@@ -41,18 +41,27 @@ public class PlayRecordController {
         if (!optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        User user = optionalUser.get();
-        PlayRecordId id = new PlayRecordId();
-        PlayRecord playRecord= new PlayRecord();
-        id.setResourceId(resourceId);
-        id.setUserId(userId);
-        id.setPlayTime(new Timestamp(System.currentTimeMillis()));
-        playRecord.setId(id);
-        playRecord.setLedResource(ledResource);
-        playRecord.setUser(user);
-        playRecordRepository.save(playRecord);
+        PlayRecord tplayRecord=playRecordRepository.findByUser_UserIdAndLedResource_ResourceId(userId,resourceId);
+        if (tplayRecord==null){
+            User user = optionalUser.get();
+            PlayRecordId id = new PlayRecordId();
+            PlayRecord playRecord= new PlayRecord();
+            id.setResourceId(resourceId);
+            id.setUserId(userId);
+            id.setPlayTime(new Timestamp(System.currentTimeMillis()));
+            playRecord.setId(id);
+            playRecord.setLedResource(ledResource);
+            playRecord.setUser(user);
+            playRecordRepository.save(playRecord);
 
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
+        }else {
+            PlayRecordId id=tplayRecord.getId();
+            id.setPlayTime(new Timestamp(System.currentTimeMillis()));
+            tplayRecord.setId(id);
+            playRecordRepository.save(tplayRecord);
+            return ResponseEntity.ok().build();
+        }
     }
 
 }
