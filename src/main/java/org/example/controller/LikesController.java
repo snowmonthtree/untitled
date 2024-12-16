@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +41,9 @@ public class LikesController {
                 return ResponseEntity.ok("取消点赞");
             } else {
                 Likes likes = new Likes();
+                likes.setUser(userRepository.findByUserId(userId));
+                likes.setResource(ledResourceRepository.findByResourceId(resourceId));
+                likes.setLikeTime(new Timestamp(System.currentTimeMillis()));
                 likesRepository.save(likes);
                 return ResponseEntity.ok("点赞成功");
             }

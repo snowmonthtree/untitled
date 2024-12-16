@@ -34,7 +34,7 @@ public class Likes {
 
     @Column(name = "Like_Time", nullable = false)
 
-    private Instant likeTime;
+    private Timestamp likeTime;
 
     public String getLikesId() {
         return likesId;
@@ -68,11 +68,11 @@ public class Likes {
         this.ledResource = ledResource;
     }
 
-    public Instant getLikeTime() {
+    public Timestamp getLikeTime() {
         return likeTime;
     }
 
-    public void setLikeTime(Instant likeTime) {
+    public void setLikeTime(Timestamp likeTime) {
         this.likeTime = likeTime;
     }
 
