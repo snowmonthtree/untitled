@@ -2,8 +2,10 @@ package org.example.enity;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,15 +24,15 @@ public class PlayRecord {
     private PlayRecordId id;
 
     @MapsId("userId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)
-    @JsonIgnore
+    @JsonManagedReference
     private User user;
 
     @MapsId("resourceId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "Resource_ID", nullable = false)
-    @JsonIgnore
+    @JsonManagedReference
     private LedResource ledResource;
 
     public PlayRecordId getId() {

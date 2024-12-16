@@ -38,8 +38,6 @@ public class TagController {
             tag.setTagName(tagName);
             tagId = tagRepository.save(tag).getTagId();
         }else tagId = tagOptional.get().getTagId();
-
-
         // 创建 LedTag 并保存
         LedTagId ledTagId = new LedTagId();
         ledTagId.setResourceId(resourceId);
@@ -48,9 +46,7 @@ public class TagController {
         LedTag ledTag = new LedTag();
         ledTag.setId(ledTagId);
         ledTag.setLedResource(ledResourceOptional.get());
-
         ledTagRepository.save(ledTag);
-
         return ResponseEntity.ok("Tag added successfully");
     }
     @DeleteMapping
