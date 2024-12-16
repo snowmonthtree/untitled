@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.enity.LedResource;
 import org.example.enity.PlayRecord;
+import org.example.enity.PlayRecordId;
 import org.example.enity.User;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.PlayRecordRepository;
@@ -65,5 +66,20 @@ public class PlayRecordControllerTest {
         assertThat(playRecords.get(0).getLedResource().getResourceId()).isEqualTo(test.getResourceId());
         assertThat(playRecords.get(0).getUser().getUserId()).isEqualTo(testUser.getUserId());
     }
+    @Test
+    void testShowPlayRecordByUserId() {
+        // 添加一些播放记录
+
+        // 发送请求
+        ResponseEntity<List> response = restTemplate.exchange(
+                "/play-records/show/" + testUser.getUserId(),
+                HttpMethod.GET,
+                null,
+                List.class
+        );
+
+        // 验证返回的播放记录
+        List<PlayRecord> playRecords = (List<PlayRecord>) response.getBody();
+        }
 
 }

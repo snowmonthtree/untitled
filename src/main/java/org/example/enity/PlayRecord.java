@@ -2,6 +2,7 @@ package org.example.enity;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,13 +24,13 @@ public class PlayRecord {
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "User_ID", nullable = false)
-    @JsonManagedReference
+    @JsonIgnore
     private User user;
 
     @MapsId("resourceId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Resource_ID", nullable = false)
-    @JsonManagedReference
+    @JsonIgnore
     private LedResource ledResource;
 
     public PlayRecordId getId() {
