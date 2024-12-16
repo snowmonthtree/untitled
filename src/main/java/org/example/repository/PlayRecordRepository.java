@@ -17,4 +17,6 @@ public interface PlayRecordRepository extends JpaRepository<PlayRecord, PlayReco
     @Query("SELECT COUNT(pr) FROM PlayRecord pr WHERE pr.id.resourceId = :resourceId")
     Long countByResourceId(String resourceId);
 
+    @Query("SELECT pr FROM PlayRecord pr WHERE pr.id.userId = :userId AND pr.id.resourceId = :resourceId")
+    PlayRecord findByUser_UserIdAndLedResource_ResourceId(String userId, String resourceId);
 }

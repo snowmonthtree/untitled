@@ -36,33 +36,38 @@ public class PlayRecordController {
 
     @PostMapping("/add/{userId}/{resourceId}")
     public ResponseEntity<Void> addPlayRecord(@PathVariable String userId, @PathVariable String resourceId) {
-       LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
         Optional<User> optionalUser = userRepository.findById(userId);
+
         if (!optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        PlayRecord tplayRecord=playRecordRepository.findByUser_UserIdAndLedResource_ResourceId(userId,resourceId);
-        if (tplayRecord==null){
-            User user = optionalUser.get();
+
+        User user = optionalUser.get();
+        PlayRecord playRecord = playRecordRepository.findByUser_UserIdAndLedResource_ResourceId(userId, resourceId);
+
+        if (playRecord == null) {
+            // 如果不存在，则创建新的PlayRecord
             PlayRecordId id = new PlayRecordId();
-            PlayRecord playRecord= new PlayRecord();
             id.setResourceId(resourceId);
             id.setUserId(userId);
             id.setPlayTime(new Timestamp(System.currentTimeMillis()));
+
+            playRecord = new PlayRecord();
             playRecord.setId(id);
             playRecord.setLedResource(ledResource);
             playRecord.setUser(user);
-            playRecordRepository.save(playRecord);
-
-            return ResponseEntity.ok().build();
-        }else {
-            PlayRecordId id=tplayRecord.getId();
+        } else {
+            // 如果存在，则更新播放时间
+            PlayRecordId id = playRecord.getId();
             id.setPlayTime(new Timestamp(System.currentTimeMillis()));
-            tplayRecord.setId(id);
-            playRecordRepository.save(tplayRecord);
-            return ResponseEntity.ok().build();
+            playRecord.setId(id);
         }
+
+        playRecordRepository.save(playRecord);
+        return ResponseEntity.ok().build();
     }
+
 
 }
 

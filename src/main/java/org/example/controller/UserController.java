@@ -1,8 +1,11 @@
 package org.example.controller;
+import org.example.enity.AppLoginLog;
 import org.example.repository.UserRepository;
+import org.example.repository.AppLoginLogRepository;
 import org.example.EmailSender;
 import org.example.QQEmailSender;
 import org.example.enity.User;
+import  org.example.enity.AppLoginLog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 
@@ -29,10 +33,17 @@ public class UserController {
     private static final String AVATARIMAGE_DIRECTORY = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar";
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AppLoginLogRepository appLoginLogRepository;
     private String temp;
     @GetMapping("/login")
     public User getUser(@RequestParam String param1, @RequestParam String param2) {
         User user= userRepository.findByEmailAndPassword(param1,param2);
+        if(user!=null){
+        AppLoginLog appLoginLog =new AppLoginLog();
+        appLoginLog.setUser(user);
+        appLoginLog.setAppLoginLogTime(new Timestamp(System.currentTimeMillis()));
+        appLoginLogRepository.save(appLoginLog);}
         return user;
     }
     @PostMapping("/insert")
@@ -73,42 +84,7 @@ public class UserController {
         temp=emailSender.sendmail();
         return "验证码已发送";
     }
-//    @PostMapping("/uploadAvatar")
-//    public String uploadAvatar(@RequestParam("userId") String userId, @RequestParam("file") MultipartFile file) {
-//        try {
-//            // 检查文件是否为空
-//            if (file.isEmpty()) {
-//                return "文件为空";
-//            }
-//
-//            // 获取用户对象
-//            User user = userRepository.findById(userId).orElse(null);
-//            if (user == null) {
-//                return "用户不存在";
-//            }
-//
-//            // 读取文件内容
-//            byte[] bytes = file.getBytes();
-//
-//            // 将字节数组转换为BufferedImage
-//            BufferedImage image = ImageIO.read(file.getInputStream());
-//
-//            // 将BufferedImage转换为Bitmap
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(image, "bmp", baos);
-//            byte[] bitmapBytes = baos.toByteArray();
-//
-//            // 设置用户的头像
-//            user.setAvatar(bitmapBytes);
-//
-//            // 保存用户对象
-//            userRepository.save(user);
-//
-//            return "头像上传成功";
-//        } catch (IOException e) {
-//            return "上传失败: " + e.getMessage();
-//        }
-//    }
+
     @GetMapping("/avatar/{userId}")
     public ResponseEntity<Resource> getAvatar(@PathVariable String userId) throws IOException {
         // 根据用户ID构造头像文件路径
@@ -126,7 +102,8 @@ public class UserController {
         }
     }
     @PatchMapping("/uploadFile")
-    public String imageUpload(@RequestPart("user") User user, @RequestParam("file") MultipartFile fileUpload){if (fileUpload.isEmpty()) {
+    public String imageUpload(@RequestPart("user") User user, @RequestParam("file") MultipartFile fileUpload){
+        if (fileUpload.isEmpty()) {
             return "Failed to upload file: File is empty";
         }
 
