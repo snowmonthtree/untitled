@@ -1,14 +1,7 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
-import org.example.enity.User;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.UserRepository;
-import org.example.enity.Likes;
-import org.example.repository.LikesRepository;
-import org.example.enity.PlayRecord;
-import org.example.repository.PlayRecordRepository;
-
+import org.example.enity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -36,6 +29,17 @@ public class LedResourceController {
     private LikesRepository likesRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UploadRecordRepository uploadRecordRepository;
+    @Autowired
+    private LedListRepository ledListRepository;
+    @Autowired
+    private LedTagRepository ledTagRepository;
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     @GetMapping("/init")
     public List<LedResource> init(){
@@ -116,11 +120,46 @@ public class LedResourceController {
         }
 
         ledResourceRepository.save(ledResource);
+        UploadRecord uploadRecord=new UploadRecord();
+        uploadRecord.setUser(user);
+        uploadRecord.setResource(ledResource);
+        uploadRecord.setUploadTime(java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+        uploadRecordRepository.save(uploadRecord);
         return "File uploaded successfully";
     }
     @PostMapping("update")
-    public String updateResource(@RequestPart("ledresource") LedResource ledResource){
+    public String updateResource(@RequestParam String resourceId,@RequestParam Integer likesNum,@RequestParam Integer downloadNum,@RequestParam Integer commentNum){
+        LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
+        ledResource.setLikes(likesNum);
+        ledResource.setDownloadCount(downloadNum);
+        ledResource.setCommentNum(commentNum);
         ledResourceRepository.save(ledResource);
+        return "success";
+    }
+    @PostMapping("delete")
+    public String deleteResource(@RequestParam String resourceId){
+        LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
+        List<PlayRecord>  playRecords= playRecordRepository.findByIdResourceId(resourceId);
+        List<Likes> likes=likesRepository.findByLedResource_ResourceId(resourceId);
+        List<Comment> comments=commentRepository.findByLedResource_ResourceId(resourceId);
+        List<LedList> ledLists=ledListRepository.findByIdResourceId(resourceId);
+        List<LedTag> ledTags=ledTagRepository.findByIdResourceId(resourceId);
+        for(PlayRecord playRecord:playRecords){
+            playRecordRepository.delete(playRecord);
+        }
+        for(Likes like:likes){
+            likesRepository.delete(like);
+        }
+        for(Comment comment:comments){
+            commentRepository.delete(comment);
+        }
+        for(LedList ledList:ledLists){
+            ledListRepository.delete(ledList);
+        }
+        for(LedTag ledTag:ledTags){
+            ledTagRepository.delete(ledTag);
+        }
+        ledResourceRepository.delete(ledResource);
         return "success";
     }
 
