@@ -101,8 +101,8 @@ public class LedResourceController {
             return "Failed to upload file: " + e.getMessage();
         }
 
-        ledResource.setResourceWebUrl(newFilePath);
-        ledResource.setViewWebUrl(newFilePath);
+        ledResource.setResourceWebUrl(fileName);
+        ledResource.setViewWebUrl(fileName);
 
         if (oldResource != null) {
             // 更新已存在的资源
