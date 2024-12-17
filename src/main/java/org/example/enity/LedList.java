@@ -9,7 +9,7 @@ public class LedList {
     private LedListId id;
 
     @MapsId("resourceId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "Resource_ID", nullable = false)
     private LedResource resource;
 

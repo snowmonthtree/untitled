@@ -12,4 +12,5 @@ public interface PlayListRepository extends JpaRepository<PlayList, String> {
 
     List<PlayList> findByUser_UserId(String userId);
     PlayList findByPlaylistId(String playlistId);
+
 }

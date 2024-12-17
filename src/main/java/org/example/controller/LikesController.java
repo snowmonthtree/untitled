@@ -1,10 +1,7 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
-import org.example.enity.Likes;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.LikesRepository;
-import org.example.repository.UserRepository;
+import org.example.enity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,21 +1,12 @@
 package org.example.controller;
 
-import org.example.enity.Comment;
-import org.example.enity.User;
-import org.example.enity.LedResource;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.CommentRepository;
-import org.example.repository.UserRepository;
+import org.example.enity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +21,7 @@ public class CommentController {
 
     @Autowired
     private UserRepository userRepository;
+
 
     @GetMapping("/find/resource/{resourceId}")
     public ResponseEntity<List<Comment>> getCommentsByResourceId(@PathVariable String resourceId) {
@@ -66,5 +58,14 @@ public class CommentController {
         commentRepository.save(comment);
 
         return ResponseEntity.ok("Comment added successfully");
+    }
+    @DeleteMapping("/delete/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable String commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        if (!optionalComment.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        commentRepository.delete(optionalComment.get());
+        return ResponseEntity.ok("Comment deleted successfully");
     }
 }

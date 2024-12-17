@@ -1,14 +1,7 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
-import org.example.enity.LedList;
-import org.example.enity.LedListId;
-import org.example.enity.PlayList;
-import org.example.enity.User;
-import org.example.repository.LedListRepository;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.PlayListRepository;
-import org.example.repository.UserRepository;
+import org.example.enity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +50,7 @@ public class LedListController {
         playListRepository.delete(playList);
         return ResponseEntity.ok("Playlist deleted successfully");
     }
-    @GetMapping("/get--playlists")
+    @GetMapping("/get-playlists")
     public ResponseEntity<List<PlayList>> getPlaylists(@RequestParam String userId) {
         User user = userRepository.findByUserId(userId);
         if (user == null) {

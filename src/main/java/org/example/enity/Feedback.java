@@ -1,5 +1,6 @@
 package org.example.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,7 +19,7 @@ public class Feedback {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "User_ID", nullable = false)
-    @JsonManagedReference
+    @JsonIgnore
     private User user;
 
     @Column(name = "Feedback_Content", nullable = false, length = 2024)
