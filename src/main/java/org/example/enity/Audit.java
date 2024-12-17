@@ -3,7 +3,7 @@ package org.example.enity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "audit")
@@ -14,11 +14,11 @@ public class Audit {
     @Column(name = "Audit_ID", nullable = false, length = 10)
     private String auditId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "Resource_ID")
     private LedResource resource;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)
     private User user;
 
@@ -26,7 +26,7 @@ public class Audit {
     private String auditName;
 
     @Column(name = "Audit_Time")
-    private Instant auditTime;
+    private Timestamp auditTime;
 
     @Column(name = "Audit_URL", nullable = false, length = 11)
     private String auditUrl;
@@ -63,11 +63,11 @@ public class Audit {
         this.auditName = auditName;
     }
 
-    public Instant getAuditTime() {
+    public Timestamp getAuditTime() {
         return auditTime;
     }
 
-    public void setAuditTime(Instant auditTime) {
+    public void setAuditTime(Timestamp auditTime) {
         this.auditTime = auditTime;
     }
 

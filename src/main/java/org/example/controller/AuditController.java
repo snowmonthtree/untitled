@@ -13,6 +13,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,32 @@ public class AuditController {
     public Audit getAudit(@PathVariable String auditId){
         return auditRepository.findByAuditId(auditId);
     }
-
+    @PostMapping("/upload")
+    public String uploadAudit(@RequestParam String userId,@RequestParam String resourceId,@RequestParam String auditName) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            return "User not found";
+        }
+        LedResource resource = ledResourceRepository.findByResourceId(resourceId);
+        if (resource == null) {
+            return "Resource not found";
+        }
+        Audit audit = new Audit();
+        audit.setUser(user);
+        audit.setResource(resource);
+        audit.setAuditName(auditName);
+        audit.setAuditUrl(resource.getResourceWebUrl());
+        audit.setAuditTime(new Timestamp(System.currentTimeMillis()));
+        auditRepository.save(audit);
+        return "Audit uploaded successfully";
+    }
+    @PostMapping("/delete-audit")
+    public String deleteAudit(@RequestParam String resourceId) {
+        List<Audit> audits = auditRepository.findByResource_ResourceId(resourceId);
+        for (Audit audit1:audits){
+            auditRepository.delete(audit1);
+        }
+        return "Audit deleted successfully";
+    }
 
 }

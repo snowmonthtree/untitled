@@ -13,6 +13,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +40,8 @@ public class LedResourceController {
     private TagRepository tagRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private AuditRepository auditRepository;
 
 
     @GetMapping("/init")
@@ -123,7 +126,7 @@ public class LedResourceController {
         UploadRecord uploadRecord=new UploadRecord();
         uploadRecord.setUser(user);
         uploadRecord.setResource(ledResource);
-        uploadRecord.setUploadTime(java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+        uploadRecord.setUploadTime(new Timestamp(System.currentTimeMillis()));
         uploadRecordRepository.save(uploadRecord);
         return "File uploaded successfully";
     }
@@ -145,6 +148,7 @@ public class LedResourceController {
         List<LedList> ledLists=ledListRepository.findByIdResourceId(resourceId);
         List<LedTag> ledTags=ledTagRepository.findByIdResourceId(resourceId);
         List<UploadRecord> uploadRecord=uploadRecordRepository.findByResource_ResourceId(resourceId);
+        List<Audit> audits=auditRepository.findByResource_ResourceId(resourceId);
         for(PlayRecord playRecord:playRecords){
             playRecordRepository.delete(playRecord);
         }
@@ -162,6 +166,9 @@ public class LedResourceController {
         }
         for(LedTag ledTag:ledTags){
             ledTagRepository.delete(ledTag);
+        }
+        for(Audit audit:audits){
+            auditRepository.delete(audit);
         }
         ledResourceRepository.delete(ledResource);
         return "success";
