@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.enity.LedResource;
 import org.example.enity.User;
 import org.example.repository.LedResourceRepository;
+import org.example.repository.UserRepository;
 import org.example.enity.Likes;
 import org.example.repository.LikesRepository;
 import org.example.enity.PlayRecord;
@@ -33,6 +34,8 @@ public class LedResourceController {
     private PlayRecordRepository playRecordRepository;
     @Autowired
     private LikesRepository likesRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/init")
     public List<LedResource> init(){
@@ -72,7 +75,7 @@ public class LedResourceController {
         return ledResourceRepository.findByResourceId(resourceId);
     }
     @PostMapping("uploadresource")
-    public String uploadledresource(@RequestPart("ledresource") LedResource ledResource, @RequestParam("file") MultipartFile fileUpload) {
+    public String uploadledresource(@RequestPart("ledresource") LedResource ledResource,@RequestParam String userId, @RequestParam("file") MultipartFile fileUpload) {
         if (fileUpload.isEmpty()) {
             return "Failed to upload file: File is empty";
         }
@@ -81,6 +84,8 @@ public class LedResourceController {
         if (!tmp.exists()) {
             tmp.mkdirs();
         }
+        User user=userRepository.findByUserId(userId);
+        ledResource.setUser(user);
 
         String originalFileName = fileUpload.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
