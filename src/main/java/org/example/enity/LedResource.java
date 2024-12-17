@@ -2,17 +2,16 @@ package org.example.enity;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "Led_Resource")
 public class LedResource {
 
     @Id
+    @GeneratedValue(generator = "customStringGenerator")
+    @GenericGenerator(name = "customStringGenerator", strategy = "org.example.generator.CustomStringLedResourceIdGenerator")
     @Column(name = "Resource_ID", length = 11, nullable = false)
     private String resourceId;
 
@@ -21,37 +20,38 @@ public class LedResource {
     private User user;  // 假设存在 User 类，如果没有，可以根据实际情况调整
 
     @Column(name = "Pixel_Size", length = 10, nullable = false)
-    private String pixelSize;
+    private String pixelSize= "0";
 
     @Column(name = "Download_Count", nullable = false)
-    private int downloadCount;
+    private int downloadCount=0;
 
     @Column(name = "Resource_Web_URL", length = 255, nullable = false)
-    private String resourceWebUrl;
+    private String resourceWebUrl = "http://default.url";
 
     @Column(name = "Display_Type", length = 10, nullable = false)
-    private String displayType;
+    private String displayType= "default";
 
     @Column(name = "name", length = 11, nullable = false)
-    private String name;
+    private String name= "default";
 
     @Column(name = "Likes", nullable = false)
-    private int likes;
+    private int likes=0;
 
     @Column(name = "Playback_Volume", nullable = false)
-    private int playbackVolume;
+    private int playbackVolume=0;
 
     @Column(name = "Detail", length = 255, nullable = false)
-    private String detail;
+    private String detail= "default";
 
     @Column(name = "View_Web_URL", length = 255, nullable = false)
-    private String viewWebUrl;
+    private String viewWebUrl= "default";
 
     @Column(name = "Comment_Num", nullable = false)
-    private int commentNum;
+    private int commentNum=0;
 
     @Column(name = "Up_Time", nullable = false)
-    private Timestamp upTime;
+    private Timestamp upTime= new Timestamp(System.currentTimeMillis());
+
 
     // Getters and Setters
     public String getResourceId() {
