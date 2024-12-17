@@ -1,12 +1,7 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
-import org.example.enity.LedTag;
-import org.example.enity.LedTagId;
-import org.example.enity.Tag;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.LedTagRepository;
-import org.example.repository.TagRepository;
+import org.example.enity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

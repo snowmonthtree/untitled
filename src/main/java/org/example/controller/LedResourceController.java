@@ -144,8 +144,12 @@ public class LedResourceController {
         List<Comment> comments=commentRepository.findByLedResource_ResourceId(resourceId);
         List<LedList> ledLists=ledListRepository.findByIdResourceId(resourceId);
         List<LedTag> ledTags=ledTagRepository.findByIdResourceId(resourceId);
+        List<UploadRecord> uploadRecord=uploadRecordRepository.findByResource_ResourceId(resourceId);
         for(PlayRecord playRecord:playRecords){
             playRecordRepository.delete(playRecord);
+        }
+        for(UploadRecord uploadRecord1:uploadRecord){
+            uploadRecordRepository.delete(uploadRecord1);
         }
         for(Likes like:likes){
             likesRepository.delete(like);
