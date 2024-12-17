@@ -11,4 +11,6 @@ public interface AuditRepository extends JpaRepository<Audit, String> {
     List<Audit> OrderByAuditTimeDesc();
 
     Audit findByAuditId(String auditId);
+
+    List<Audit> findByResource_ResourceId(String resourceId);
 }
