@@ -86,11 +86,10 @@ public class LedResourceController {
         }
         User user=userRepository.findByUserId(userId);
         ledResource.setUser(user);
-
+        // 使用UUID生成唯一的文件名，并保留文件扩展名
         String originalFileName = fileUpload.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        // 构建完整的文件路径
-        String fileName = ledResource.getResourceId() + fileExtension;
+        String fileName = UUID.randomUUID().toString() + fileExtension;
         String newFilePath = IMAGE_DIRECTORY + File.separator + fileName;
 
         LedResource oldResource = ledResourceRepository.findByResourceId(ledResource.getResourceId());
