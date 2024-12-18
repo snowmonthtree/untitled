@@ -131,9 +131,9 @@ public class LedResourceController {
         return "File uploaded successfully";
     }
     @PostMapping("update")
-    public String updateResource(@RequestParam String resourceId,@RequestParam Integer likesNum,@RequestParam Integer downloadNum,@RequestParam Integer commentNum){
+    public String updateResource(@RequestParam String resourceId,@RequestParam Integer playRecordNum,@RequestParam Integer downloadNum,@RequestParam Integer commentNum){
         LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
-        ledResource.setLikes(likesNum);
+        ledResource.setPlaybackVolume(playRecordNum);
         ledResource.setDownloadCount(downloadNum);
         ledResource.setCommentNum(commentNum);
         ledResourceRepository.save(ledResource);
