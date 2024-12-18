@@ -1,14 +1,13 @@
 package org.example.controller;
 
-import org.example.enity.*;
+import org.example.enity.Comment;
 import org.example.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.sql.Timestamp;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -29,11 +28,22 @@ public class CommentController {
     public ResponseEntity<String> addComment(@PathVariable String resourceId,
                                              @PathVariable String userId,
                                              @RequestBody String commentContext) {
-        return commentService.addComment(resourceId, userId, commentContext);
+        try {
+            String response = commentService.addComment(resourceId, userId, commentContext);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add comment");
+        }
     }
 
     @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable String commentId) {
-        return commentService.deleteComment(commentId);
+        try {
+            String response = commentService.deleteComment(commentId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete comment");
+        }
     }
 }

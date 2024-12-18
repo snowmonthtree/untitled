@@ -5,6 +5,7 @@ import org.example.repository.LedTagRepository;
 import org.example.repository.TagRepository;
 import org.example.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,20 @@ public class TagController {
 
     @PostMapping("/add/{resourceId}/{tagName}")
     public ResponseEntity<String> addTag(@PathVariable String resourceId, @PathVariable String tagName) {
-        return tagService.addTag(resourceId, tagName);
+        try {
+            return ResponseEntity.ok(tagService.addTag(resourceId, tagName));
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add tag");
+        }
     }
     @DeleteMapping
     public ResponseEntity<String> deleteTag(@RequestParam String resourceId, @RequestParam String tagName) {
-        return tagService.deleteTag(resourceId, tagName);
+        try{
+            return ResponseEntity.ok(tagService.deleteTag(resourceId, tagName));
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete tag");
+        }
     }
 }

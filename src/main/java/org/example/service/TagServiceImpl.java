@@ -8,11 +8,7 @@ import org.example.repository.LedResourceRepository;
 import org.example.repository.LedTagRepository;
 import org.example.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -27,16 +23,16 @@ public class TagServiceImpl implements TagService {
     private LedTagRepository ledTagRepository;
 
     @Override
-    public ResponseEntity<String> addTag(@PathVariable String resourceId, @PathVariable String tagName) {
+    public String addTag(String resourceId, String tagName) {
         // 查找 LedResource
         Optional<LedResource> ledResourceOptional = ledResourceRepository.findById(resourceId);
         Optional<Tag> tagOptional = tagRepository.findByTagName(tagName);
         String tagId;
-        if (!ledResourceOptional.isPresent()) {
-            return new ResponseEntity<>("LedResource not found", HttpStatus.NOT_FOUND);
+        if (ledResourceOptional.isEmpty()) {
+            return "LedResource not found";
         }
 
-        if (!tagOptional.isPresent()) {
+        if (tagOptional.isEmpty()) {
             Tag tag = new Tag();
             tag.setTagName(tagName);
             tagId = tagRepository.save(tag).getTagId();
@@ -50,17 +46,20 @@ public class TagServiceImpl implements TagService {
         ledTag.setId(ledTagId);
         ledTag.setLedResource(ledResourceOptional.get());
         ledTagRepository.save(ledTag);
-        return ResponseEntity.ok("Tag added successfully");
+        return "Tag added successfully";
     }
     @Override
-    public ResponseEntity<String> deleteTag(@RequestParam String resourceId, @RequestParam String tagName) {
+    public String deleteTag(String resourceId, String tagName) {
         Optional<Tag> tagOptional = tagRepository.findByTagName(tagName);
+        if (tagOptional.isEmpty()) {
+            return "Tag not found";
+        }
         String tagId=tagOptional.get().getTagId();
         LedTag ledTag = ledTagRepository.findByIdResourceIdAndTagId(resourceId, tagId);
         if (ledTag == null) {
-            return ResponseEntity.ok("LedTag not found");
+            return "LedTag not found";
         }
         ledTagRepository.delete(ledTag);
-        return ResponseEntity.ok("Tag deleted successfully");
+        return "Tag deleted successfully";
     }
 }

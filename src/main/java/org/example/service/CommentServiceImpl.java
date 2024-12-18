@@ -1,11 +1,12 @@
 package org.example.service;
 
-import org.example.enity.*;
-import org.example.repository.*;
-import org.example.service.CommentService;
+import org.example.enity.Comment;
+import org.example.enity.LedResource;
+import org.example.enity.User;
+import org.example.repository.CommentRepository;
+import org.example.repository.LedResourceRepository;
+import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,15 +31,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseEntity<String> addComment(String resourceId, String userId, String commentContext) {
+    public String addComment(String resourceId, String userId, String commentContext) {
         Optional<LedResource> optionalLedResource = ledResourceRepository.findById(resourceId);
-        if (!optionalLedResource.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("LedResource not found");
+        if (optionalLedResource.isEmpty()) {
+            return "LedResource not found";
         }
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (!optionalUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        if (optionalUser.isEmpty()) {
+            return "User not found";
         }
 
         LedResource ledResource = optionalLedResource.get();
@@ -52,16 +53,16 @@ public class CommentServiceImpl implements CommentService {
 
         commentRepository.save(comment);
 
-        return ResponseEntity.ok("Comment added successfully");
+        return "Comment added successfully";
     }
 
     @Override
-    public ResponseEntity<String> deleteComment(String commentId) {
+    public String deleteComment(String commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        if (!optionalComment.isPresent()) {
-            return ResponseEntity.notFound().build();
+        if (optionalComment.isEmpty()) {
+            return "Comment not found";
         }
         commentRepository.delete(optionalComment.get());
-        return ResponseEntity.ok("Comment deleted successfully");
+        return "Comment deleted successfully";
     }
 }

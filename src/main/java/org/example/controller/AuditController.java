@@ -1,21 +1,14 @@
 package org.example.controller;
 
-import org.example.enity.*;
-import org.example.repository.*;
+import org.example.enity.Audit;
+import org.example.repository.AuditRepository;
+import org.example.repository.LedResourceRepository;
+import org.example.repository.UserRepository;
+import org.example.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/audit")
@@ -26,41 +19,24 @@ public class AuditController {
     private LedResourceRepository ledResourceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuditService auditService;
 
     @GetMapping("/init")
     public List<Audit> init(){
-        return auditRepository.OrderByAuditTimeDesc();
+        return auditService.OrderByAuditTimeDesc();
     }
     @GetMapping("/{auditId}")
     public Audit getAudit(@PathVariable String auditId){
-        return auditRepository.findByAuditId(auditId);
+        return auditService.findByAuditId(auditId);
     }
     @PostMapping("/user-audit")
     public String uploadAudit(@RequestParam String userId,@RequestParam String resourceId,@RequestParam String auditName) {
-        User user = userRepository.findByUserId(userId);
-        if (user == null) {
-            return "User not found";
-        }
-        LedResource resource = ledResourceRepository.findByResourceId(resourceId);
-        if (resource == null) {
-            return "Resource not found";
-        }
-        Audit pastAudit = auditRepository.findByResource_ResourceId(resourceId);
-        if (pastAudit==null){
-        Audit audit = new Audit();
-        audit.setUser(user);
-        audit.setResource(resource);
-        audit.setAuditName(auditName);
-        audit.setAuditUrl(resource.getResourceWebUrl());
-        audit.setAuditTime(new Timestamp(System.currentTimeMillis()));
-        auditRepository.save(audit);}
-        return "Audit uploaded successfully";
+        return auditService.uploadAudit(userId,resourceId,auditName);
     }
     @PostMapping("/delete-audit")
     public String deleteAudit(@RequestParam String resourceId) {
-        Audit audit = auditRepository.findByResource_ResourceId(resourceId);
-        auditRepository.delete(audit);
-        return "Audit deleted successfully";
+        return auditService.deleteAudit(resourceId);
     }
 
 }
