@@ -148,7 +148,7 @@ public class LedResourceController {
         List<LedList> ledLists=ledListRepository.findByIdResourceId(resourceId);
         List<LedTag> ledTags=ledTagRepository.findByIdResourceId(resourceId);
         List<UploadRecord> uploadRecord=uploadRecordRepository.findByResource_ResourceId(resourceId);
-        List<Audit> audits=auditRepository.findByResource_ResourceId(resourceId);
+        Audit audit=auditRepository.findByResource_ResourceId(resourceId);
         for(PlayRecord playRecord:playRecords){
             playRecordRepository.delete(playRecord);
         }
@@ -167,9 +167,8 @@ public class LedResourceController {
         for(LedTag ledTag:ledTags){
             ledTagRepository.delete(ledTag);
         }
-        for(Audit audit:audits){
-            auditRepository.delete(audit);
-        }
+        auditRepository.delete(audit);
+
         ledResourceRepository.delete(ledResource);
         return "success";
     }

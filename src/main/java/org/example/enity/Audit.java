@@ -15,14 +15,14 @@ public class Audit {
     private String auditId;
 
     @ManyToOne
-    @JoinColumn(name = "Resource_ID")
+    @JoinColumn(name = "Resource_ID",unique = true)
     private LedResource resource;
 
     @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)
     private User user;
 
-    @Column(name = "Audit_Name", nullable = false, length = 10)
+    @Column(name = "Audit_Name", nullable = false, length = 255)
     private String auditName;
 
     @Column(name = "Audit_Time")

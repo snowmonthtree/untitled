@@ -35,7 +35,7 @@ public class AuditController {
     public Audit getAudit(@PathVariable String auditId){
         return auditRepository.findByAuditId(auditId);
     }
-    @PostMapping("/upload")
+    @PostMapping("/user-audit")
     public String uploadAudit(@RequestParam String userId,@RequestParam String resourceId,@RequestParam String auditName) {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
@@ -45,21 +45,21 @@ public class AuditController {
         if (resource == null) {
             return "Resource not found";
         }
+        Audit pastAudit = auditRepository.findByResource_ResourceId(resourceId);
+        if (pastAudit==null){
         Audit audit = new Audit();
         audit.setUser(user);
         audit.setResource(resource);
         audit.setAuditName(auditName);
         audit.setAuditUrl(resource.getResourceWebUrl());
         audit.setAuditTime(new Timestamp(System.currentTimeMillis()));
-        auditRepository.save(audit);
+        auditRepository.save(audit);}
         return "Audit uploaded successfully";
     }
     @PostMapping("/delete-audit")
     public String deleteAudit(@RequestParam String resourceId) {
-        List<Audit> audits = auditRepository.findByResource_ResourceId(resourceId);
-        for (Audit audit1:audits){
-            auditRepository.delete(audit1);
-        }
+        Audit audit = auditRepository.findByResource_ResourceId(resourceId);
+        auditRepository.delete(audit);
         return "Audit deleted successfully";
     }
 
