@@ -1,5 +1,6 @@
 package org.example.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -10,7 +11,7 @@ public class LedTag {
     private LedTagId id;
 
     @MapsId("resourceId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "Resource_ID", nullable = false)
     @JsonManagedReference
     private LedResource ledResource;

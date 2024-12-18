@@ -50,25 +50,20 @@ public class PlayRecordController {
             id.setResourceId(resourceId);
             id.setUserId(userId);
             id.setPlayTime(new Timestamp(System.currentTimeMillis()));
-
             playRecord = new PlayRecord();
             playRecord.setId(id);
             playRecord.setLedResource(ledResource);
             playRecord.setUser(user);
+            playRecordRepository.save(playRecord);
         } else {
             // 如果存在，则更新播放时间
             PlayRecordId id = playRecord.getId();
             id.setPlayTime(new Timestamp(System.currentTimeMillis()));
             playRecord.setId(id);
+            playRecordRepository.save(playRecord);
         }
-
-        playRecordRepository.save(playRecord);
         return ResponseEntity.ok().build();
     }
-
-
-
-
 }
 
 
