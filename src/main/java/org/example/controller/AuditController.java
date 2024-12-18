@@ -1,9 +1,6 @@
 package org.example.controller;
 
 import org.example.enity.Audit;
-import org.example.repository.AuditRepository;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.UserRepository;
 import org.example.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/audit")
 public class AuditController {
-    @Autowired
-    private AuditRepository auditRepository;
-    @Autowired
-    private LedResourceRepository ledResourceRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private AuditService auditService;
 

@@ -18,13 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/uploadrecord")
 public class UploadRecordController {
-    @Autowired
-    private UploadRecordRepository uploadRecordRepository;
-    @Autowired
-    private LedResourceRepository ledResourceRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private UploadRecordService uploadRecordService;
     @PostMapping("/show")
     public ResponseEntity<List<UploadRecord>> showUploadRecord(@RequestParam String userId) {

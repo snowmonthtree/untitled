@@ -1,0 +1,15 @@
+package org.example.service;
+
+import org.example.enity.LedResource;
+import org.example.enity.PlayList;
+
+import java.util.List;
+
+public interface LedListService {
+    String createPlaylist(String userId, String playlistName);
+    String deletePlaylist(String userId, String playlistId);
+    String addResourceToPlaylist(String userId, String playlistId, String resourceId);
+    String removeLastResourceFromPlaylist(String userId, String playlistId);
+    List<LedResource> getPlaylistResources(String userId, String playlistId);
+    List<PlayList> getPlaylists(String userId);
+}

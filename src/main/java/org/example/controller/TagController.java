@@ -13,12 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/tag")
 public class TagController {
     @Autowired
-    private LedResourceRepository ledResourceRepository;
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private LedTagRepository ledTagRepository;
-    @Autowired
     private TagService tagService;
 
     @PostMapping("/add/{resourceId}/{tagName}")

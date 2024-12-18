@@ -1,8 +1,6 @@
 package org.example.controller;
 
 import org.example.enity.User;
-import org.example.repository.AppLoginLogRepository;
-import org.example.repository.UserRepository;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -16,15 +14,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private static final String AVATARIMAGE_DIRECTORY = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar";
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AppLoginLogRepository appLoginLogRepository;
     @Autowired
     private UserService userService;
-
-    private String temp;
     @GetMapping("/login")
     public User getUser(@RequestParam String param1, @RequestParam String param2) {
         return userService.getUser(param1,param2);

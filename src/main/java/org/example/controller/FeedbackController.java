@@ -1,8 +1,6 @@
 package org.example.controller;
 
 import org.example.enity.Feedback;
-import org.example.repository.FeedbackRepository;
-import org.example.repository.UserRepository;
 import org.example.service.FeedBackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
-    @Autowired
-    private FeedbackRepository feedbackRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private FeedBackService feedBackService;
     @PostMapping("/add")
@@ -32,7 +26,7 @@ public class FeedbackController {
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<Feedback>> getAllFeedback() {
-        List<Feedback> feedbacks=feedbackRepository.findByOrderByFeedbackDateDesc();
+        List<Feedback> feedbacks=feedBackService.getAllFeedback();
         return ResponseEntity.ok(feedbacks);
     }
 }

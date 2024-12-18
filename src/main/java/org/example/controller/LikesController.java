@@ -1,8 +1,5 @@
 package org.example.controller;
 
-import org.example.repository.LedResourceRepository;
-import org.example.repository.LikesRepository;
-import org.example.repository.UserRepository;
 import org.example.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/likes")
 public class LikesController {
-
-    @Autowired
-    private LikesRepository likesRepository;
-
-    @Autowired
-    private LedResourceRepository ledResourceRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
     @Autowired
     private LikesService likesService;
 

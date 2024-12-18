@@ -14,16 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/play-records")
 public class PlayRecordController {
-
-    @Autowired
-    private PlayRecordRepository playRecordRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private LedResourceRepository ledResourceRepository;
-    @Autowired
     private PlayRecordService playRecordService;
     @GetMapping("/show/{userId}")
     public ResponseEntity<List<PlayRecord>> showPlayRecordByUserId(@PathVariable String userId) {
