@@ -3,8 +3,12 @@ package org.example.service;
 import org.example.EmailSender;
 import org.example.QQEmailSender;
 import org.example.entity.AppLoginLog;
+import org.example.entity.Feedback;
+import org.example.entity.LedResource;
 import org.example.entity.User;
 import org.example.repository.AppLoginLogRepository;
+import org.example.repository.FeedbackRepository;
+import org.example.repository.LedResourceRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,6 +32,13 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     @Autowired
     private AppLoginLogRepository appLoginLogRepository;
+    @Autowired
+    private LedResourceRepository ledResourceRepository;
+    @Autowired
+    private LedResourceService ledResourceService;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+
     private String temp;
     @Override
     public User getUser( String param1,  String param2) {
@@ -133,5 +145,27 @@ public class UserServiceImpl implements UserService{
         } catch (IOException e) {
             return "Failed to upload file: " + e.getMessage();
         }
+    }
+    @Override
+    public String deleteUser(String userId) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            return "User not found";
+        }
+        String oldFilePath = user.getAvatarWebUrl();
+        if (oldFilePath != null) {
+            File oldFile = new File(oldFilePath);
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+        }
+        List<LedResource> ledResources = ledResourceRepository.findByUser_UserId(userId);
+        for (LedResource ledResource : ledResources) {
+            ledResourceService.deleteResource(ledResource.getResourceId());
+        }
+        List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
+        feedbackRepository.deleteAll(feedbacks);
+        userRepository.delete(user);
+        return "User deleted successfully";
     }
 }

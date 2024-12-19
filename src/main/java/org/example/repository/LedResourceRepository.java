@@ -27,6 +27,8 @@ public interface LedResourceRepository extends JpaRepository<LedResource, String
     // 获取点赞量从高到低排序
     @Query("SELECT l FROM LedResource l ORDER BY l.likes DESC")
     List<LedResource> findByOrderByLikesDesc();
+
+    List<LedResource> findByUser_UserId(String userId);
     /*
      如果想添加更多的复杂查询，可以使用 JPQL 或者原生 SQL，例如：
      @Query("SELECT l FROM LedResource l WHERE l.likes > :likes")

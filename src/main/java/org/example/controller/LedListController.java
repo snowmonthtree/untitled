@@ -38,8 +38,8 @@ public class LedListController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
     @PostMapping("/remove-last-resource")
-    public ResponseEntity<String> removeLastResourceFromPlaylist(@RequestParam String userId, @RequestParam String playlistId) {
-        return ResponseEntity.ok(ledListService.removeLastResourceFromPlaylist(userId, playlistId));
+    public ResponseEntity<String> removeResourceFromPlaylist(@RequestParam String userId,@RequestParam String playlistId,@RequestParam String resourceId) {
+        return ResponseEntity.ok(ledListService.removeResourceFromPlaylist(userId, playlistId, resourceId));
     }
     @GetMapping("/get-playlist-resources")
     public ResponseEntity<List<LedResource>> getPlaylistResources(@RequestParam String userId, @RequestParam String playlistId) {

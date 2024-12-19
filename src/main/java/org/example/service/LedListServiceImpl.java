@@ -67,7 +67,7 @@ public class LedListServiceImpl implements LedListService{
             return "User not found";
         }
         PlayList playList = playListRepository.findByPlaylistId(playlistId);
-        if (playList == null) {
+        if (playList == null|| !playList.getUser().getUserId().equals(userId)) {
             return "Playlist not found";
         }
         LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
@@ -93,7 +93,7 @@ public class LedListServiceImpl implements LedListService{
         return "Resource added to playlist successfully";
     }
     @Override
-    public String removeLastResourceFromPlaylist(String userId, String playlistId) {
+    public String removeResourceFromPlaylist(String userId, String playlistId, String resourceId) {
         User user = userRepository.findByUserId(userId);
         if (user == null) {
             return "User not found";
@@ -102,10 +102,28 @@ public class LedListServiceImpl implements LedListService{
         if (playList == null) {
             return "Playlist not found";
         }
-        List<LedList> lastLedListList= ledListRepository.findFirstByPlaylistIdOrderByListNoDesc(playlistId);
-        LedList lastLedList = lastLedListList.get(0);
-        ledListRepository.delete(lastLedList);
-        return "Last resource removed from playlist successfully";
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
+        if (ledResource == null) {
+            return "Resource not found";
+        }
+        List<LedList> existingResources = ledListRepository.findByPlaylistIdOrderByListNoAsc(playlistId);
+        boolean found = false;
+        for (int i = 0; i < existingResources.size(); i++) {
+            LedList ledList = existingResources.get(i);
+            LedListId ledListId = ledList.getId();
+            if (found) {
+                ledListId.setListNo(ledListId.getListNo() - 1);
+                ledList.setId(ledListId);
+                ledListRepository.save(ledList);
+            } else if (ledListId.getResourceId().equals(resourceId)) {
+                found = true;
+                ledListRepository.delete(ledList);
+            }
+        }
+        if (!found) {
+            return "Resource not found in the playlist";
+        }
+        return "Resource removed from playlist successfully";
     }
     @Override
     public List<LedResource> getPlaylistResources(String userId, String playlistId) {

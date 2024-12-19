@@ -13,4 +13,5 @@ public interface UserService{
     String getCode(String email);
     Resource getAvatar(String userId) throws IOException ;
     String imageUpload(User user, MultipartFile fileUpload);
+    String deleteUser(String userId);
 }

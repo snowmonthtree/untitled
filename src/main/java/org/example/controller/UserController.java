@@ -42,5 +42,8 @@ public class UserController {
     public String imageUpload(@RequestPart("user") User user, @RequestParam("file") MultipartFile fileUpload){
         return userService.imageUpload(user,fileUpload);
     }
-
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam String userId){
+        return userService.deleteUser(userId);
+    }
 }
