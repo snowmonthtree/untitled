@@ -1,9 +1,6 @@
 package org.example.controller;
 
 import org.example.enity.UploadRecord;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.UploadRecordRepository;
-import org.example.repository.UserRepository;
 import org.example.service.UploadRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/uploadrecord")
 public class UploadRecordController {
+    @Autowired
     private UploadRecordService uploadRecordService;
     @PostMapping("/show")
     public ResponseEntity<List<UploadRecord>> showUploadRecord(@RequestParam String userId) {
