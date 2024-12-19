@@ -1,9 +1,6 @@
 package org.example.controller;
 
 import org.example.enity.PlayRecord;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.PlayRecordRepository;
-import org.example.repository.UserRepository;
 import org.example.service.PlayRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/play-records")
 public class PlayRecordController {
+    @Autowired
     private PlayRecordService playRecordService;
     @GetMapping("/show/{userId}")
     public ResponseEntity<List<PlayRecord>> showPlayRecordByUserId(@PathVariable String userId) {
