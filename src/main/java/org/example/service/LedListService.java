@@ -1,7 +1,7 @@
 package org.example.service;
 
-import org.example.enity.LedResource;
-import org.example.enity.PlayList;
+import org.example.entity.LedResource;
+import org.example.entity.PlayList;
 
 import java.util.List;
 

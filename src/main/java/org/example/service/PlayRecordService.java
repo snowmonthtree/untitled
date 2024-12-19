@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.PlayRecord;
+import org.example.entity.PlayRecord;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.example.repository;
 
-import org.example.enity.LedTag;
-import org.example.enity.LedTagId;
+import org.example.entity.LedTag;
+import org.example.entity.LedTagId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

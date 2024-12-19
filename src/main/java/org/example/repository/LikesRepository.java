@@ -1,7 +1,6 @@
 package org.example.repository;
 
-import org.example.enity.LedResource;
-import org.example.enity.Likes;
+import org.example.entity.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

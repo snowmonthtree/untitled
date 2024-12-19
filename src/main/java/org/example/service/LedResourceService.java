@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.LedResource;
+import org.example.entity.LedResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

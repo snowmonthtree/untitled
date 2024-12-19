@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.enity.UploadRecord;
+import org.example.entity.UploadRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -2,8 +2,8 @@ package org.example.service;
 
 import org.example.EmailSender;
 import org.example.QQEmailSender;
-import org.example.enity.AppLoginLog;
-import org.example.enity.User;
+import org.example.entity.AppLoginLog;
+import org.example.entity.User;
 import org.example.repository.AppLoginLogRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

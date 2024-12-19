@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.*;
+import org.example.entity.*;
 import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

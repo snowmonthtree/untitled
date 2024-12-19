@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.Comment;
+import org.example.entity.Comment;
 
 import java.util.List;
 

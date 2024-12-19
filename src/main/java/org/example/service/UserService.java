@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.User;
+import org.example.entity.User;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

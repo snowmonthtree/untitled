@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
+import org.example.entity.LedResource;
 import org.example.service.LedResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

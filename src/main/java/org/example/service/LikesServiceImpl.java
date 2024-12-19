@@ -1,7 +1,7 @@
 package org.example.service;
 
-import org.example.enity.LedResource;
-import org.example.enity.Likes;
+import org.example.entity.LedResource;
+import org.example.entity.Likes;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.LikesRepository;
 import org.example.repository.UserRepository;

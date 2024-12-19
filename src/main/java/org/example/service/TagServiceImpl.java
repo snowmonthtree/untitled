@@ -1,9 +1,9 @@
 package org.example.service;
 
-import org.example.enity.LedResource;
-import org.example.enity.LedTag;
-import org.example.enity.LedTagId;
-import org.example.enity.Tag;
+import org.example.entity.LedResource;
+import org.example.entity.LedTag;
+import org.example.entity.LedTagId;
+import org.example.entity.Tag;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.LedTagRepository;
 import org.example.repository.TagRepository;

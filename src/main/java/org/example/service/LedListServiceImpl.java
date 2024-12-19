@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.*;
+import org.example.entity.*;
 import org.example.repository.LedListRepository;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.PlayListRepository;

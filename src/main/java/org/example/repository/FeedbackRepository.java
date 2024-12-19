@@ -1,10 +1,8 @@
 package org.example.repository;
 
-import org.example.enity.Comment;
-import org.example.enity.Feedback;
+import org.example.entity.Feedback;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

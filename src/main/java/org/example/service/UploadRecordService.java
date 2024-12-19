@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.UploadRecord;
+import org.example.entity.UploadRecord;
 
 import java.util.List;
 

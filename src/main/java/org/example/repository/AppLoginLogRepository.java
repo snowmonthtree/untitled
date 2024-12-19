@@ -1,5 +1,5 @@
 package org.example.repository;
-import org.example.enity.AppLoginLog;
+import org.example.entity.AppLoginLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

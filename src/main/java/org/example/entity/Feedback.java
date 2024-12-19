@@ -1,12 +1,10 @@
-package org.example.enity;
+package org.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 
 @Entity
 @Table(name = "feedback")

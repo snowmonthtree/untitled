@@ -1,6 +1,5 @@
 package org.example.service;
-import org.example.enity.Audit;
-import org.springframework.http.ResponseEntity;
+import org.example.entity.Audit;
 
 import java.util.List;
 

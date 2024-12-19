@@ -1,7 +1,7 @@
 package org.example.repository;
 
-import org.example.enity.LedList;
-import org.example.enity.LedListId;
+import org.example.entity.LedList;
+import org.example.entity.LedListId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

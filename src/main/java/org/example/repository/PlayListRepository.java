@@ -1,7 +1,7 @@
 package org.example.repository;
 
 
-import org.example.enity.PlayList;
+import org.example.entity.PlayList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

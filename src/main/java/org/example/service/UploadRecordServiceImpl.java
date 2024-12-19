@@ -1,7 +1,7 @@
 package org.example.service;
 
-import org.example.enity.UploadRecord;
-import org.example.enity.User;
+import org.example.entity.UploadRecord;
+import org.example.entity.User;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.UploadRecordRepository;
 import org.example.repository.UserRepository;

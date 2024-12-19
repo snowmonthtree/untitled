@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.PlayRecord;
+import org.example.entity.PlayRecord;
 import org.example.service.PlayRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

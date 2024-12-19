@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.Comment;
+import org.example.entity.Comment;
 import org.example.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
 package org.example.service;
 
-import org.example.enity.LedResource;
-import org.example.enity.PlayRecord;
-import org.example.enity.PlayRecordId;
-import org.example.enity.User;
+import org.example.entity.LedResource;
+import org.example.entity.PlayRecord;
+import org.example.entity.PlayRecordId;
+import org.example.entity.User;
 import org.example.repository.LedResourceRepository;
 import org.example.repository.PlayRecordRepository;
 import org.example.repository.UserRepository;

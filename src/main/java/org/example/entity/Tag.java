@@ -1,13 +1,8 @@
-package org.example.enity;
+package org.example.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
-import java.sql.Timestamp;
-import java.util.Objects;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tag")

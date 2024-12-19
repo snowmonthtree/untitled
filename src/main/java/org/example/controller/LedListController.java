@@ -1,7 +1,7 @@
 package org.example.controller;
 
-import org.example.enity.LedResource;
-import org.example.enity.PlayList;
+import org.example.entity.LedResource;
+import org.example.entity.PlayList;
 import org.example.service.LedListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

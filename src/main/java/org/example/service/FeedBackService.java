@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.enity.Feedback;
+import org.example.entity.Feedback;
 
 import java.util.List;
 

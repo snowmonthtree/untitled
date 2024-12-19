@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.Audit;
+import org.example.entity.Audit;
 import org.example.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

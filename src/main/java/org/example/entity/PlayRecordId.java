@@ -1,10 +1,9 @@
-package org.example.enity;
+package org.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.GenericGenerator;
+
 import java.sql.Timestamp;
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.Feedback;
+import org.example.entity.Feedback;
 import org.example.service.FeedBackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

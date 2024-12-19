@@ -1,4 +1,4 @@
-package org.example.enity;
+package org.example.entity;
 
 import java.sql.Timestamp;
 
@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import java.time.Instant;
 
 @Entity
 @Table(name = "likes")

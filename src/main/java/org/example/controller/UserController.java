@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.User;
+import org.example.entity.User;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.enity.UploadRecord;
+import org.example.entity.UploadRecord;
 import org.example.service.UploadRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
