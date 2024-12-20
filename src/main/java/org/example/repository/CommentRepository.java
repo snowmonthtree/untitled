@@ -11,4 +11,6 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
     // 根据 resourceId 查找所有评论
     List<Comment> findByLedResource_ResourceId(String resourceId);
     Comment findByCommentId(String commentId);
+    List<Comment> findAllByOrderByCommentTimeDesc();
+    List<Comment> findByUser_UserIdOrderByCommentTimeDesc(String userId);
 }

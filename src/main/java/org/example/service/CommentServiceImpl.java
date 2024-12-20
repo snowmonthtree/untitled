@@ -65,4 +65,12 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(optionalComment.get());
         return "Comment deleted successfully";
     }
+    @Override
+    public List<Comment> getAllComments() {
+        return commentRepository.findAllByOrderByCommentTimeDesc();
+    }
+    @Override
+    public List<Comment> getUserComments(String userId) {
+        return commentRepository.findByUser_UserIdOrderByCommentTimeDesc(userId);
+    }
 }

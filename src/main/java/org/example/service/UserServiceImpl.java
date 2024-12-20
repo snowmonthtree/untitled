@@ -168,4 +168,8 @@ public class UserServiceImpl implements UserService{
         userRepository.delete(user);
         return "User deleted successfully";
     }
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAllOrderByName();
+    }
 }
