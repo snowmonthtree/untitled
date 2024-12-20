@@ -2,14 +2,8 @@ package org.example.service;
 
 import org.example.EmailSender;
 import org.example.QQEmailSender;
-import org.example.entity.AppLoginLog;
-import org.example.entity.Feedback;
-import org.example.entity.LedResource;
-import org.example.entity.User;
-import org.example.repository.AppLoginLogRepository;
-import org.example.repository.FeedbackRepository;
-import org.example.repository.LedResourceRepository;
-import org.example.repository.UserRepository;
+import org.example.entity.*;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -38,6 +32,8 @@ public class UserServiceImpl implements UserService{
     private LedResourceService ledResourceService;
     @Autowired
     private FeedbackRepository feedbackRepository;
+    @Autowired
+    private FollowRepository followRepository;
 
     private String temp;
     @Override
@@ -164,6 +160,10 @@ public class UserServiceImpl implements UserService{
             ledResourceService.deleteResource(userId,ledResource.getResourceId());
         }
         List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
+        List<Follow> followers = followRepository.findByFollowerId(userId);
+        List<Follow> following = followRepository.findByFollowingId(userId);
+        followRepository.deleteAll(followers);
+        followRepository.deleteAll(following);
         feedbackRepository.deleteAll(feedbacks);
         userRepository.delete(user);
         return "User deleted successfully";
