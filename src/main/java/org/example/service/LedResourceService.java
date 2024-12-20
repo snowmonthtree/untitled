@@ -16,5 +16,5 @@ public interface LedResourceService {
     List<LedResource> search(String userId, String name);
     String uploadledresource(LedResource ledResource, String userId, MultipartFile fileUpload);
     String updateResource(String resourceId,Integer playRecordNum,Integer downloadNum,Integer commentNum);
-    String deleteResource(String resourceId);
+    String deleteResource(String userId,String resourceId);
 }

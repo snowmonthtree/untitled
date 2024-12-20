@@ -64,8 +64,8 @@ public class LedResourceController {
         return ledResourceService.updateResource(resourceId,playRecordNum,downloadNum,commentNum);
     }
     @PostMapping("delete")
-    public String deleteResource(@RequestParam String resourceId){
-        return ledResourceService.deleteResource(resourceId);
+    public String deleteResource(@RequestParam String userId,@RequestParam String resourceId){
+        return ledResourceService.deleteResource(userId,resourceId);
     }
 
 }

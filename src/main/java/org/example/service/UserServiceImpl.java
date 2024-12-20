@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService{
         }
         List<LedResource> ledResources = ledResourceRepository.findByUser_UserId(userId);
         for (LedResource ledResource : ledResources) {
-            ledResourceService.deleteResource(ledResource.getResourceId());
+            ledResourceService.deleteResource(userId,ledResource.getResourceId());
         }
         List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
         feedbackRepository.deleteAll(feedbacks);

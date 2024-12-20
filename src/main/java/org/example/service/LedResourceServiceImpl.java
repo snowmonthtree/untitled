@@ -40,6 +40,8 @@ public class LedResourceServiceImpl implements LedResourceService{
     private CommentRepository commentRepository;
     @Autowired
     private AuditRepository auditRepository;
+    @Autowired
+    private LedListService ledListService;
 
 
     @Override
@@ -140,8 +142,9 @@ public class LedResourceServiceImpl implements LedResourceService{
     }
 
     @Override
-    public String deleteResource(String resourceId){
+    public String deleteResource(String userId,String resourceId){
         LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
+        User user=userRepository.findByUserId(userId);
         List<PlayRecord>  playRecords= playRecordRepository.findByIdResourceId(resourceId);
         List<Likes> likes=likesRepository.findByLedResource_ResourceId(resourceId);
         List<Comment> comments=commentRepository.findByLedResource_ResourceId(resourceId);
@@ -153,10 +156,11 @@ public class LedResourceServiceImpl implements LedResourceService{
         uploadRecordRepository.deleteAll(uploadRecord);
         likesRepository.deleteAll(likes);
         commentRepository.deleteAll(comments);
-        ledListRepository.deleteAll(ledLists);
         ledTagRepository.deleteAll(ledTags);
         auditRepository.delete(audit);
-
+        for(LedList ledList:ledLists){
+            ledListService.removeResourceFromPlaylist(user.getUserId(),ledList.getId().getPlaylistId(),resourceId);
+        }
         ledResourceRepository.delete(ledResource);
         return "success";
     }

@@ -9,6 +9,9 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<Feedback, String>{
     @Query("SELECT fb FROM Feedback fb ORDER BY fb.feedbackDate DESC")
     List<Feedback> findByOrderByFeedbackDateDesc();
+
     @Query("SELECT fb FROM Feedback fb ORDER BY fb.feedbackDate ASC")
     List<Feedback> findByOrderByFeedbackDateAsc();
+
+    List<Feedback> findByUser_UserId(String userId);
 }
