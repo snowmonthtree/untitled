@@ -10,6 +10,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findByEmailAndPassword(String userEmail, String password);
     User findByEmail(String userEmail);
     User findByUserId(String userId);
-    @Query("SELECT u FROM User u ORDER BY u.name ASC")
+    @Query("SELECT u FROM User u WHERE u.permissionId =='0' ORDER BY u.name ASC")
     List<User> findAllOrderByName();
 }
