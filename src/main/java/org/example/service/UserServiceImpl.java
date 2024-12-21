@@ -152,17 +152,11 @@ public class UserServiceImpl implements UserService{
         if (user == null) {
             return "User not found";
         }
-        String oldFilePath = user.getAvatarWebUrl();
-        if (oldFilePath != null) {
-            File oldFile = new File(oldFilePath);
-            if (oldFile.exists()) {
-                oldFile.delete();
-            }
-        }
         List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
         List<Follow> followers = followRepository.findByFollowerId(userId);
         List<Follow> following = followRepository.findByFollowingId(userId);
         List<PlayList> playLists=playListRepository.findByUser_UserId(userId);
+        List<AppLoginLog> appLoginLogs = appLoginLogRepository.findByUser_UserId(userId);
         for (PlayList playList : playLists) {
             List<LedList> ledLists = ledListRepository.findByIdPlaylistId(playList.getPlaylistId());
             for (LedList ledList : ledLists) {
@@ -173,11 +167,29 @@ public class UserServiceImpl implements UserService{
         for (LedResource ledResource : ledResources) {
             ledResourceService.deleteResource(userId,ledResource.getResourceId());
         }
-
-        followRepository.deleteAll(followers);
-        followRepository.deleteAll(following);
-        feedbackRepository.deleteAll(feedbacks);
+        if(appLoginLogs!=null){
+        appLoginLogRepository.deleteAll(appLoginLogs);
+        }
+        if (followers!=null) {
+            followRepository.deleteAll(followers);
+        }
+        if (following!=null) {
+            followRepository.deleteAll(following);
+        }
+        if(feedbacks!=null) {
+            feedbackRepository.deleteAll(feedbacks);
+        }
+        if(playLists!=null){
         playListRepository.deleteAll(playLists);
+        }
+        Path avatarPath = Paths.get(user.getAvatarWebUrl());
+        if (avatarPath.toFile().exists()) {
+            try {
+                avatarPath.toFile().delete();
+            } catch (Exception e) {
+                return "Failed to delete avatar file: " + e.getMessage();
+            }
+        }
         userRepository.delete(user);
         return "User deleted successfully";
     }

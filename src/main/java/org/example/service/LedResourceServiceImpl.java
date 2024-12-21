@@ -176,6 +176,14 @@ public class LedResourceServiceImpl implements LedResourceService{
                     ledListService.removeResourceFromPlaylist(user.getUserId(), ledList.getId().getPlaylistId(), resourceId);
                 }
             }
+            Path imagePath = Paths.get(IMAGE_DIRECTORY, ledResource.getResourceWebUrl());
+            if (imagePath.toFile().exists()) {
+                try {
+                    imagePath.toFile().delete();
+                } catch (Exception e) {
+                    return "Failed to delete file: " + e.getMessage();
+                }
+            }
             ledResourceRepository.delete(ledResource);
         } else {
             return "Resource not found";
