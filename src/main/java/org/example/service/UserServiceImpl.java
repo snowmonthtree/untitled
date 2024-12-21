@@ -182,7 +182,10 @@ public class UserServiceImpl implements UserService{
         if(playLists!=null){
         playListRepository.deleteAll(playLists);
         }
-        Path avatarPath = Paths.get(user.getAvatarWebUrl());
+        Path avatarPath = null;
+        if (user.getAvatarWebUrl() != null) {
+            avatarPath = Paths.get(user.getAvatarWebUrl());
+        }
         if (avatarPath.toFile().exists()) {
             try {
                 avatarPath.toFile().delete();
