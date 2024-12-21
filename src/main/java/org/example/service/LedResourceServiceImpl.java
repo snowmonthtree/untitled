@@ -143,25 +143,43 @@ public class LedResourceServiceImpl implements LedResourceService{
 
     @Override
     public String deleteResource(String userId,String resourceId){
-        LedResource ledResource=ledResourceRepository.findByResourceId(resourceId);
-        User user=userRepository.findByUserId(userId);
-        List<PlayRecord>  playRecords= playRecordRepository.findByIdResourceId(resourceId);
-        List<Likes> likes=likesRepository.findByLedResource_ResourceId(resourceId);
-        List<Comment> comments=commentRepository.findByLedResource_ResourceId(resourceId);
-        List<LedList> ledLists=ledListRepository.findByIdResourceId(resourceId);
-        List<LedTag> ledTags=ledTagRepository.findByIdResourceId(resourceId);
-        List<UploadRecord> uploadRecord=uploadRecordRepository.findByResource_ResourceId(resourceId);
-        Audit audit=auditRepository.findByResource_ResourceId(resourceId);
-        playRecordRepository.deleteAll(playRecords);
-        uploadRecordRepository.deleteAll(uploadRecord);
-        likesRepository.deleteAll(likes);
-        commentRepository.deleteAll(comments);
-        ledTagRepository.deleteAll(ledTags);
-        auditRepository.delete(audit);
-        for(LedList ledList:ledLists){
-            ledListService.removeResourceFromPlaylist(user.getUserId(),ledList.getId().getPlaylistId(),resourceId);
+        LedResource ledResource = ledResourceRepository.findByResourceId(resourceId);
+        User user = userRepository.findByUserId(userId);
+        if (ledResource != null) {
+            List<PlayRecord> playRecords = playRecordRepository.findByIdResourceId(resourceId);
+            List<Likes> likes = likesRepository.findByLedResource_ResourceId(resourceId);
+            List<Comment> comments = commentRepository.findByLedResource_ResourceId(resourceId);
+            List<LedList> ledLists = ledListRepository.findByIdResourceId(resourceId);
+            List<LedTag> ledTags = ledTagRepository.findByIdResourceId(resourceId);
+            List<UploadRecord> uploadRecords = uploadRecordRepository.findByResource_ResourceId(resourceId);
+            Audit audit = auditRepository.findByResource_ResourceId(resourceId);
+            if (playRecords != null) {
+                playRecordRepository.deleteAll(playRecords);
+            }
+            if (uploadRecords != null) {
+                uploadRecordRepository.deleteAll(uploadRecords);
+            }
+            if (likes != null) {
+                likesRepository.deleteAll(likes);
+            }
+            if (comments != null) {
+                commentRepository.deleteAll(comments);
+            }
+            if (ledTags != null) {
+                ledTagRepository.deleteAll(ledTags);
+            }
+            if (audit != null) {
+                auditRepository.delete(audit);
+            }
+            if (ledLists != null) {
+                for (LedList ledList : ledLists) {
+                    ledListService.removeResourceFromPlaylist(user.getUserId(), ledList.getId().getPlaylistId(), resourceId);
+                }
+            }
+            ledResourceRepository.delete(ledResource);
+        } else {
+            return "Resource not found";
         }
-        ledResourceRepository.delete(ledResource);
         return "success";
     }
 

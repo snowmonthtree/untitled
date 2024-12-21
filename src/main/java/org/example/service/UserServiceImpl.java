@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService{
     private FeedbackRepository feedbackRepository;
     @Autowired
     private FollowRepository followRepository;
+    @Autowired
+    private PlayListRepository playListRepository;
+    @Autowired
+    private LedListRepository ledListRepository;
 
     private String temp;
     @Override
@@ -155,16 +159,25 @@ public class UserServiceImpl implements UserService{
                 oldFile.delete();
             }
         }
+        List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
+        List<Follow> followers = followRepository.findByFollowerId(userId);
+        List<Follow> following = followRepository.findByFollowingId(userId);
+        List<PlayList> playLists=playListRepository.findByUser_UserId(userId);
+        for (PlayList playList : playLists) {
+            List<LedList> ledLists = ledListRepository.findByIdPlaylistId(playList.getPlaylistId());
+            for (LedList ledList : ledLists) {
+                ledListRepository.delete(ledList);
+            }
+        }
         List<LedResource> ledResources = ledResourceRepository.findByUser_UserId(userId);
         for (LedResource ledResource : ledResources) {
             ledResourceService.deleteResource(userId,ledResource.getResourceId());
         }
-        List<Feedback> feedbacks = feedbackRepository.findByUser_UserId(userId);
-        List<Follow> followers = followRepository.findByFollowerId(userId);
-        List<Follow> following = followRepository.findByFollowingId(userId);
+
         followRepository.deleteAll(followers);
         followRepository.deleteAll(following);
         feedbackRepository.deleteAll(feedbacks);
+        playListRepository.deleteAll(playLists);
         userRepository.delete(user);
         return "User deleted successfully";
     }
