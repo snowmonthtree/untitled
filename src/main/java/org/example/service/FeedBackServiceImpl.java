@@ -42,7 +42,8 @@ public class FeedBackServiceImpl implements FeedBackService{
     }
     @Override
     public String deleteFeedback(String feedbackId) {
-        feedbackRepository.deleteById(feedbackId);
+        Feedback feedback = feedbackRepository.findByFeedbackId(feedbackId);
+        feedbackRepository.delete(feedback);
         return "Feedback deleted successfully";
     }
 }

@@ -14,4 +14,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, String>{
     List<Feedback> findByOrderByFeedbackDateAsc();
 
     List<Feedback> findByUser_UserId(String userId);
+
+    Feedback findByFeedbackId(String feedbackId);
 }
