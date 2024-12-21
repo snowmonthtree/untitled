@@ -5,6 +5,7 @@ import org.example.entity.Feedback;
 import java.util.List;
 
 public interface FeedBackService {
-    String addComment(String userId, String context);
+    String addFeedback(String userId, String context);
     List<Feedback> getAllFeedback();
+    String deleteFeedback(String feedbackId);
 }

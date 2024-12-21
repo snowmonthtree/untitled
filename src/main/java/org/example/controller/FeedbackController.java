@@ -15,10 +15,10 @@ public class FeedbackController {
     @Autowired
     private FeedBackService feedBackService;
     @PostMapping("/add")
-    public ResponseEntity<String> addComment(@PathVariable String userId,
+    public ResponseEntity<String> addFeedback(@PathVariable String userId,
                                              @RequestBody String context) {
         try {
-            return ResponseEntity.ok(feedBackService.addComment(userId, context));
+            return ResponseEntity.ok(feedBackService.addFeedback(userId, context));
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add comment");
@@ -29,4 +29,13 @@ public class FeedbackController {
         List<Feedback> feedbacks=feedBackService.getAllFeedback();
         return ResponseEntity.ok(feedbacks);
     }
+    @GetMapping("/delete")
+    public ResponseEntity<String> deleteFeedback(@RequestParam String feedbackId) {
+        try {
+            return ResponseEntity.ok(feedBackService.deleteFeedback(feedbackId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete feedback");
+        }
+    }
+
 }

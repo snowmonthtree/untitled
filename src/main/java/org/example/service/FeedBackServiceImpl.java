@@ -18,7 +18,7 @@ public class FeedBackServiceImpl implements FeedBackService{
     @Autowired
     private UserRepository userRepository;
     @Override
-    public String addComment(String userId,String context) {
+    public String addFeedback(String userId,String context) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
             return "User not found";
@@ -39,5 +39,10 @@ public class FeedBackServiceImpl implements FeedBackService{
     public List<Feedback> getAllFeedback() {
         List<Feedback> feedbacks=feedbackRepository.findByOrderByFeedbackDateDesc();
         return feedbacks;
+    }
+    @Override
+    public String deleteFeedback(String feedbackId) {
+        feedbackRepository.deleteById(feedbackId);
+        return "Feedback deleted successfully";
     }
 }

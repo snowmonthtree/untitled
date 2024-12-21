@@ -15,7 +15,7 @@ public class Feedback {
     @Column(name = "Feedback_ID", nullable = false, length = 11)
     private String feedbackId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "User_ID", nullable = false)
     @JsonIgnore
     private User user;
