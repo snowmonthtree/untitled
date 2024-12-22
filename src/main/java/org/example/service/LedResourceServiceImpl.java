@@ -138,7 +138,7 @@ public class LedResourceServiceImpl implements LedResourceService{
         ledResource.setDownloadCount(downloadNum);
         ledResource.setCommentNum(commentNum);
         ledResourceRepository.save(ledResource);
-        return "success";
+        return "Resource update successfully";
     }
 
     @Override
@@ -188,7 +188,7 @@ public class LedResourceServiceImpl implements LedResourceService{
         } else {
             return "Resource not found";
         }
-        return "success";
+        return "Delete resource success";
     }
 
 }

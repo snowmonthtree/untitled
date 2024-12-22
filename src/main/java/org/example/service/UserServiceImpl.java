@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService{
                 return "失败" + e.getMessage();
             }
         }
-        return "success";
+        return "Change password successfully";
     }
     @Override
     public String getCode(String email) {
