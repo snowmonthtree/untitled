@@ -17,11 +17,31 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService{
 
+    private ConcurrentHashMap<String, ExpiringCode> verificationCodes = new ConcurrentHashMap<>();
     private static final String AVATARIMAGE_DIRECTORY = "C:\\Users\\Administrator\\Pictures\\USER\\Avatar";
+    private static class ExpiringCode {
+        private final String code;
+        private final long expirationTime;
+
+        public ExpiringCode(String code, long expirationTime) {
+            this.code = code;
+            this.expirationTime = expirationTime;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public boolean isExpired() {
+            return System.currentTimeMillis() > expirationTime;
+        }
+    }
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -80,12 +100,21 @@ public class UserServiceImpl implements UserService{
         }
         return "success";
     }
-    //目前最多只能支持一个用户同时进行发送验证码并修改密码或注册
+
     @Override
-    public String getCode( String email){
-        EmailSender emailSender=new QQEmailSender();
+    public String getCode(String email) {
+        if (verificationCodes.containsKey(email)) {
+            ExpiringCode expiringCode = verificationCodes.get(email);
+            if (!expiringCode.isExpired()) {
+                return "验证码已发送，请勿频繁请求";
+            }
+        }
+
+        EmailSender emailSender = new QQEmailSender();
         emailSender.init(email);
-        temp=emailSender.sendmail();
+        String code = emailSender.sendmail();
+        long expirationTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5); // 5分钟过期
+        verificationCodes.put(email, new ExpiringCode(code, expirationTime));
         return "验证码已发送";
     }
 
