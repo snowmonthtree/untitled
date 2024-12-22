@@ -71,36 +71,41 @@ public class UserServiceImpl implements UserService{
         return user;
     }
     @Override
-    public String insertUser(User user,  String Code) {
-        if (!Code.equals(temp)){
+    public String insertUser(User user, String code) {
+        String email = user.getEmail(); // 假设 User 类中有 getEmail 方法
+        if (!verificationCodes.containsKey(email) || !code.equals(verificationCodes.get(email).getCode())) {
             return "验证码错误";
         }
+
         user.setPermissionId("0");
         try {
             userRepository.save(user);
+            verificationCodes.remove(email); // 验证成功后移除验证码
         } catch (Exception e) {
             return e.getMessage();
         }
         return "User inserted successfully";
     }
+
     @Override
-    public String changePassword( String email, String newPassword, String code){
-        User user1=userRepository.findByEmail(email);
-        if (user1==null){
-            return "用户不存在";
-        } else if (!code.equals(temp)) {
+    public String changePassword(String email, String newPassword, String code) {
+        if (!verificationCodes.containsKey(email) || !code.equals(verificationCodes.get(email).getCode())) {
             return "验证码错误";
+        }
+        User user1 = userRepository.findByEmail(email);
+        if (user1 == null) {
+            return "用户不存在";
         } else {
             try {
                 user1.setPassword(newPassword);
                 userRepository.save(user1);
-            }catch (Exception e){
-                return "失败"+e.getMessage();
+                verificationCodes.remove(email); // 验证成功后移除验证码
+            } catch (Exception e) {
+                return "失败" + e.getMessage();
             }
         }
         return "success";
     }
-
     @Override
     public String getCode(String email) {
         if (verificationCodes.containsKey(email)) {
