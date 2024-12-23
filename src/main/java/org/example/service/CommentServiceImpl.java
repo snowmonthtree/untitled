@@ -64,6 +64,7 @@ public class CommentServiceImpl implements CommentService {
         }
         LedResource ledResource =ledResourceRepository.findByResourceId(optionalComment.get().getLedResource().getResourceId());
         ledResource.setCommentNum(ledResource.getCommentNum()-1);
+        ledResourceRepository.save(ledResource);
         commentRepository.delete(optionalComment.get());
         return "Comment deleted successfully";
     }
