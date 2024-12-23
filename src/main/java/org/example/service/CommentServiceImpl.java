@@ -62,6 +62,8 @@ public class CommentServiceImpl implements CommentService {
         if (optionalComment.isEmpty()) {
             return "Comment not found";
         }
+        LedResource ledResource =ledResourceRepository.findByResourceId(optionalComment.get().getLedResource().getResourceId());
+        ledResource.setCommentNum(ledResource.getCommentNum()-1);
         commentRepository.delete(optionalComment.get());
         return "Comment deleted successfully";
     }
