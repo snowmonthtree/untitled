@@ -23,7 +23,7 @@ public class QQEmailSender extends EmailSender {
     String to;  // 替换为你想发送的收件人
 
     // 发件人的电子邮件地址（你的QQ邮箱）
-    String from = "2680340431@qq.com";  // 替换为你的QQ邮箱
+    String from = "@qq.com";  // 替换为你的QQ邮箱
 
     // QQ邮箱的SMTP服务器地址
     String host = "smtp.qq.com";
@@ -50,8 +50,7 @@ public class QQEmailSender extends EmailSender {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 // 使用你的QQ邮箱账户和授权码进行认证
-                //mxhjwwwykbrceacb
-                return new PasswordAuthentication("2680340431@qq.com", "mxhjwwwykbrceacb");
+                return new PasswordAuthentication("@qq.com", "sad");
             }
         });
 
