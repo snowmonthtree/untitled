@@ -14,7 +14,7 @@ import java.util.List;
 public class FeedbackController {
     @Autowired
     private FeedBackService feedBackService;
-    @PostMapping("/add")
+    @PostMapping("/add/{userId}")
     public ResponseEntity<String> addFeedback(@PathVariable String userId,
                                              @RequestBody String context) {
         try {
